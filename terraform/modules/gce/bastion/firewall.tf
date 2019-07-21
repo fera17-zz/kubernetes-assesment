@@ -13,50 +13,53 @@ resource google_compute_firewall ssh {
   source_ranges = "${var.admin_whitelist}"
 }
 
-resource google_compute_firewall int {
-  name    = "${var.prefix}-int-fw"
-  network = "${var.network}"
-
-  allow {
-    protocol = "icmp"
-  }
-
-  allow {
-    protocol = "tcp"
-  }
-
-  allow {
-    protocol = "udp"
-  }
-
-  allow {
-    protocol = "esp"
-  }
-
-  allow {
-    protocol = "ah"
-  }
-
-  allow {
-    protocol = "sctp"
-  }
-
-  allow {
-    protocol = "tcp"
-    ports    = ["22"]
-  }
-
-  source_ranges = ["${var.cidr_block}"]
-}
-
-# resource google_compute_firewall int-egress {
-#   name    = "${var.prefix}-int-egress-fw"
+# resource google_compute_firewall int {
+#   name    = "${var.prefix}-int-fw"
 #   network = "${var.network}"
-# #   restrinct it a bit
+
 #   allow {
-#     protocol = "all"
+#     protocol = "icmp"
 #   }
 
-#   direction          = "EGRESS"
-#   destination_ranges = ["0.0.0.0/0"]
+#   allow {
+#     protocol = "tcp"
+#   }
+
+#   allow {
+#     protocol = "udp"
+#   }
+
+#   allow {
+#     protocol = "esp"
+#   }
+
+#   allow {
+#     protocol = "ah"
+#   }
+
+#   allow {
+#     protocol = "sctp"
+#   }
+
+#   allow {
+#     protocol = "tcp"
+#     ports    = ["22"]
+#   }
+
+#   source_ranges = ["${var.cidr_block}"]
 # }
+
+resource google_compute_firewall int-egress {
+  name    = "${var.prefix}-int-egress-fw"
+  network = "${var.network}"
+#   restrinct it a bit
+
+  allow {
+    protocol = "all"
+  }
+
+  source_tags = ["bastion"] #"private"
+  target_tags = ["private"]
+  # direction          = "EGRESS"
+  # destination_ranges = ["0.0.0.0/0"]
+}

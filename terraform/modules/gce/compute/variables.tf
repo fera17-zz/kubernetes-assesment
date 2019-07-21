@@ -93,11 +93,6 @@ variable metadata {
   default     = {}
 }
 
-variable update_strategy {
-  description = "The strategy to apply when the instance template changes."
-  default     = "NONE"
-}
-
 variable replicas {
   description = "Number of replicas"
 }

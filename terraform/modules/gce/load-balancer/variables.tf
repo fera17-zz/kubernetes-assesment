@@ -3,6 +3,10 @@ variable project {
   default     = ""
 }
 
+variable name {
+	description = "name of the resource"
+}
+
 variable prefix {
 	description = "prefix for the forwarding rule and prefix for supporting resources."
 }

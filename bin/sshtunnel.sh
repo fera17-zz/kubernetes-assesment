@@ -21,4 +21,4 @@ chmod 400 $KEYFILE
 ssh-add -D -K $KEYFILE
 # ssh -L ${LOCAL_PORT}:${REMOTE_HOST}:${REMOTE_PORT} -fN $USER@$JUMPBOX_HOST -i $KEYFILE -tt
 
-ssh -o 'ForwardAgent yes' -o "StrictHostKeyChecking=no" -i cust_id_tfm_rsa k8s@${JUMPBOX_HOST} -A ssh -T k8s@10.240.0.4 -tt
+ssh -v -o 'ForwardAgent yes' -o "StrictHostKeyChecking=no" -i cust_id_tfm_rsa k8s@35.242.147.180 -A ssh -T k8s@10.240.0.11 -tt

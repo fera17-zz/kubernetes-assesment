@@ -86,7 +86,9 @@ module masters {
   )}"
 
   metadata {
-    ssh-keys = "${local.ssh_keys}"
+    ssh-keys           = "${local.ssh_keys}"
+    user-data          = "${data.template_cloudinit_config.cloud_init.rendered}"
+    user-data-encoding = "base64"
   }
 }
 
@@ -112,7 +114,9 @@ module workers {
   )}"
 
   metadata {
-    ssh-keys = "${local.ssh_keys}"
+    ssh-keys           = "${local.ssh_keys}"
+    user-data          = "${data.template_cloudinit_config.cloud_init.rendered}"
+    user-data-encoding = "base64"
   }
 }
 
@@ -159,39 +163,23 @@ module workers {
 # }
 
 # TODO: labels
-# module load_balancer {
-#   source = "../../../tf-modules/load-balancer"
+module load_balancer {
+  source = "../../modules/gce/load-balancer"
 
-#   project           = "${var.project}"
-#   region            = "${var.region}"
-#   prefix            = "${var.prefix}"
-#   network           = "${module.network.network_name}"
-#   service_port_name = "${var.prefix}-api-https"
-#   service_port      = "${var.master_service_port}"
-#   cidr_block        = "${var.cidr_block}"
-#   admin_whitelist   = "${var.admin_whitelist}"
-#   nat_ips           = "${module.nat.external_ip}"
-#   target_tags       = ["${var.prefix}-master", "controller"]
-#   instance_group    = "${module.masters.instance_group}"
-#   service_port_name = "apiserver"
-# }
-
-# IP ADDRESS
-
-# JUMBPROX
-# resource google_compute_address jumpbox_internal {
-#   name         = "${var.prefix}-jumpbox-internal"
-#   address_type = "INTERNAL"
-#   subnetwork   = "${module.network.public_subnetwork_link}"
-#   address      = "${var.jumpbox_internal_ip}"
-#   description  = "static private ip to access jumpbox"
-#   region       = "${var.region}"
-
-#   labels = "${merge(local.labels,
-#     map("vmrole", "jumpbox"),
-#   map("visibility", "private")
-#   )}"
-# }
+  name              = "${var.prefix}-masters"
+  project           = "${var.project}"
+  region            = "${var.region}"
+  prefix            = "${var.prefix}"
+  network           = "${module.network.network_name}"
+  service_port_name = "${var.prefix}-api-https"
+  service_port      = "${var.master_service_port}"
+  cidr_block        = "${var.cidr_block}"
+  admin_whitelist   = "${var.admin_whitelist}"
+  nat_ips           = "${module.nat.external_ip}"
+  target_tags       = ["${var.prefix}-master", "controller"]
+  instance_group    = "${module.masters.instance_group}"
+  service_port_name = "apiserver"
+}
 
 # BASTION
 module bastion {
@@ -206,8 +194,6 @@ module bastion {
   region     = "${var.region}"
   cidr_block = "${var.cidr_block}"
   image      = "${data.google_compute_image.ubuntu.self_link}"
-
-  # internal_ip     = "${google_compute_address.jumpbox_internal.address}"
   zone            = "${var.region}-a"
   network         = "${module.network.network_name}"
   subnetwork      = "${module.network.public_subnetwork_name}"

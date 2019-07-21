@@ -45,7 +45,6 @@ resource google_compute_region_instance_group_manager this {
 
   instance_template         = "${google_compute_instance_template.this.self_link}"
   region                    = "${var.region}"
-  update_strategy           = "${var.update_strategy}"
   distribution_policy_zones = ["${var.distribution_policy_zones}"]
   target_size               = "${var.replicas}"
 

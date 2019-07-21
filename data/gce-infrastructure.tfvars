@@ -12,15 +12,11 @@ project = "stakxlv0"
 
 prefix = "k8s"
 
-master_group_size = 0
+master_group_size = 2
 
-worker_group_size = 0
+worker_group_size = 2
 
-jumpbox_create = false
-
-cluster_zones = ["europe-west2-a", "europe-west2-b", "europe-west2-c"]
-
-jumpbox_create = false
+jumpbox_create = true
 
 jumpbox_type = "f1-micro"
 
@@ -30,7 +26,6 @@ worker_type = "g1-smal"
 
 # find it with data
 owner = "ivanka"
-
 
 access_config = []
 

@@ -6,13 +6,17 @@ resource google_compute_target_tcp_proxy this {
 }
 
 resource google_compute_backend_service this {
-  name        = "${var.prefix}-backend"
+  name        = "${var.name}"
   protocol    = "TCP"
   port_name   = "${var.service_port_name}"
   timeout_sec = 10
 
   backend {
     group = "${var.instance_group}"
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 
   health_checks = ["${google_compute_health_check.this.self_link}"]
@@ -30,16 +34,24 @@ resource google_compute_health_check this {
 
 // Static IP address for HTTP forwarding rule
 resource google_compute_global_address this {
-  name = "${var.prefix}-ip"
+  name = "${var.name}-lb"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource google_compute_global_forwarding_rule this {
   project     = "${var.project}"
-  name        = "${var.prefix}-frontend"
+  name        = "${var.name}"
   target      = "${google_compute_target_tcp_proxy.this.self_link}"
   port_range  = "443"
   ip_protocol = "TCP"
-#   ip_address  = "${google_compute_global_address.this.address}"
+  ip_address  = "${google_compute_global_address.this.address}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource google_compute_firewall lb_external_fw {

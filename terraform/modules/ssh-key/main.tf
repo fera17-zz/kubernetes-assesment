@@ -10,6 +10,9 @@ variable rsa_bits {
   default = "2048"
 }
 
+variable private_ssh_path {}
+variable private_ssh_key {}
+
 #############
 # RESOURCES #
 #############
@@ -17,6 +20,11 @@ variable rsa_bits {
 resource tls_private_key this {
   algorithm = "${var.algorithm}"
   rsa_bits  = "${var.rsa_bits}"
+}
+
+resource local_file private_ssh {
+  sensitive_content = "${var.private_ssh_key}"
+  filename          = "${var.private_ssh_path}"
 }
 
 ###########

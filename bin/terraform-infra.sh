@@ -54,3 +54,4 @@ fi
 # gcloud compute ssh k8s-jumpbox --zone europe-west2-a
 # ssh -i cust_id_tfm_rsa k8s@35.189.105.9
 
+gcloud compute instances list
