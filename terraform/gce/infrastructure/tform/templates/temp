@@ -1,0 +1,22 @@
+    ---
+    apiVersion: kubeadm.k8s.io/v1alpha1
+    kind: MasterConfiguration
+    kubernetesVersion: v${k8s_version}
+    cloudProvider: gce
+    networking:
+      serviceSubnet: ${service_cidr}
+      podSubnet: ${pod_cidr}
+    authorizationModes:
+      - Node
+      - RBAC
+      apiServerCertSANs:
+      - ${elb_dns}
+      - 127.0.0.1
+      controllerManagerExtraArgs:
+        cluster-name: ${instance_prefix}
+        allocate-node-cidrs: "true"
+        cidr-allocator-type: "RangeAllocator"
+        configure-cloud-routes: "false"
+        cloud-config: /etc/kubernetes/cloud-config
+        cluster-cidr: ${pod_cidr}
+        service-cluster-ip-range: ${service_cidr}

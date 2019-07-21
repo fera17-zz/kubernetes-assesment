@@ -1,0 +1,52 @@
+# top-most EditorConfig file
+root = true
+
+[*]
+trim_trailing_whitespace = true
+insert_final_newline     = false
+end_of_line              = lf
+charset                  = utf-8
+tab_width                = 4
+max_line_length          = 80
+indent_size              = 2
+indent_style             = space
+trim_trailing_whitespace = true
+
+
+[*.sh]
+indent_style = space
+indent_size = 2
+
+[{*.{awk,bat,c,cpp,d,h,l,mk,re,skl,w32,y},Makefile*}]
+indent_size              = 2
+indent_style             = tab
+
+[*.{tf,tfvars}]
+indent_size = 2
+indent_style = space
+
+[*.{yml, yaml}]
+indent_style = space
+indent_size = 2
+
+[*.{json,tpl}]
+indent_style = space
+indent_size = 2
+
+[Jenkinsfile]
+indent_size = 2
+indent_style = space
+
+[*.{xml,config,props,targets,nuspec,resx,ruleset,vsixmanifest,vsct}]
+indent_size = 2
+
+[{*.hcl,*.conf}]
+indent_size = 2
+max_line_length = 100
+
+[COMMIT_EDITMSG]
+indent_size              = 4
+indent_style             = space
+max_line_length          = 80
+
+
