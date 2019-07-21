@@ -3,9 +3,6 @@ variable project {}
 variable prefix {}
 variable jumpbox_create {}
 variable jumpbox_type {}
-
-# variable jumpbox_image {}
-
 variable owner {}
 variable master_type {}
 variable master_group_size {}

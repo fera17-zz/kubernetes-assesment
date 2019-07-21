@@ -75,7 +75,7 @@ module masters {
   compute_image             = "${data.google_compute_image.ubuntu.self_link}"
   disk_size_gb              = "50"
   distribution_policy_zones = ["${data.google_compute_zones.available.names}"]
-  replicas                  = "2"
+  replicas                  = "${var.master_group_size}"
   service_port              = "${var.master_service_port}"
   service_port_name         = "apiserver"
   wait_for_instances        = true
@@ -96,14 +96,14 @@ module workers {
   name                      = "${var.prefix}-worker"
   project                   = "${var.project}"
   region                    = "${var.region}"
-  tags                      = "${local.master_tags}"
+  tags                      = "${local.worker_tags}"
   machine_type              = "${var.master_type}"
   instance_subnetwork       = "${module.network.private_subnetwork_name}"
   can_ip_forward            = "true"
   compute_image             = "${data.google_compute_image.ubuntu.self_link}"
   disk_size_gb              = "50"
   distribution_policy_zones = ["${data.google_compute_zones.available.names}"]
-  replicas                  = 3
+  replicas                  = "${var.worker_group_size}"
   wait_for_instances        = true
 
   instance_labels = "${merge(local.labels,
@@ -176,31 +176,6 @@ module workers {
 #   service_port_name = "apiserver"
 # }
 
-# module workers {
-#   source = "../../../tf-modules/terraform-google-managed-instance-group-mod"
-
-#   project                = "${var.project}"
-#   region                 = "${var.region}"
-#   zone                   = "${var.zone}"
-#   name                   = "${var.res_prefix}-workers"
-#   size                   = "${var.worker_group_size}"
-#   target_tags            = ["${var.res_prefix}-nat-${var.region}", "${var.res_prefix}-workers", "${module.nat.routing_tag_regional}"]
-#   http_health_check      = false
-#   zonal                  = false
-#   service_account_scopes = ["${var.service_account_scopes}"]
-#   network                = "${module.network.network_name}"
-#   subnetwork             = "${module.network.subnetwork_name}"
-#   access_config          = ["${var.access_config}"]
-#   can_ip_forward         = true
-#   machine_type           = "${var.master_type}"
-#   compute_image          = "${var.os_image}"
-
-#   metadata = {
-#     "owner"    = "${var.owner}"
-#     "ssh-keys" = "core:${file("${var.pub_key}")}"
-#   }
-# }
-
 # IP ADDRESS
 
 # JUMBPROX
@@ -222,7 +197,7 @@ module workers {
 module bastion {
   source = "../../modules/gce/bastion"
 
-  create     = true
+  create     = "${var.jumpbox_create}"
   prefix     = "${var.prefix}"
   project    = "${var.project}"
   pub_key    = "${module.ssh_key.public}"

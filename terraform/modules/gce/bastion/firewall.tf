@@ -45,7 +45,7 @@ resource google_compute_firewall int {
     protocol = "tcp"
     ports    = ["22"]
   }
-  
+
   source_ranges = ["${var.cidr_block}"]
 }
 

@@ -14,7 +14,7 @@ PROJECT=terraform/gcp/dev
 # export TF_VAR_region=${REGION}
 export TF_VAR_state_bucket=${TF_STATE_BUCKET}
 export TF_VAR_project_id=${PROJECT_ID}
-export TF_VAR_private_ssh_path="${PWD}/states/cust_id_tfm_rsa"
+export TF_VAR_private_ssh_path="${PWD}/data/cust_id_tfm_rsa"
 
 MODULE="${PWD}/terraform/gce/infrastructure"
 
@@ -32,7 +32,7 @@ terraform init \
 
 terraform apply \
 -refresh=true \
--var-file="$MODULE/terraform.tfvars" \
+-var-file="${PWD}/data/gce-infrastructure.tfvars" \
 $MODULE | landscape
 
 # -state="${STATE}" \

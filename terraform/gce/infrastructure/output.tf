@@ -57,10 +57,3 @@ output nat_external_static_ip {
 # }
 
 # cluster
-output claster_id {
-  value = "${random_id.cluster_uid.hex}"
-}
-
-output claster_token {
-  value = "${random_id.token_prefix.hex}.${random_id.token_suffix.hex}"
-}

@@ -8,7 +8,8 @@ locals {
 
   ssh_pub_key_without_new_line = "${replace(module.ssh_key.public, "\n", "")}"
   ssh_keys = "${var.ssh_user}:${local.ssh_pub_key_without_new_line} ${var.ssh_user}"
-  master_tags = ["${var.prefix}-worker", "private"]
+  master_tags = ["${var.prefix}-master", "private"]
+  worker_tags = ["${var.prefix}-worker", "private"]
 }
 
 data google_compute_image ubuntu {
