@@ -185,15 +185,15 @@ module load_balancer {
 module bastion {
   source = "../../modules/gce/bastion"
 
-  create     = "${var.jumpbox_create}"
-  prefix     = "${var.prefix}"
-  project    = "${var.project}"
-  pub_key    = "${module.ssh_key.public}"
-  ssh_keys   = "${local.ssh_keys}"
-  type       = "${var.jumpbox_type}"
-  region     = "${var.region}"
-  cidr_block = "${var.cidr_block}"
-  image      = "${data.google_compute_image.ubuntu.self_link}"
+  create          = "${var.jumpbox_create}"
+  prefix          = "${var.prefix}"
+  project         = "${var.project}"
+  pub_key         = "${module.ssh_key.public}"
+  ssh_keys        = "${local.ssh_keys}"
+  type            = "${var.jumpbox_type}"
+  region          = "${var.region}"
+  cidr_block      = "${var.cidr_block}"
+  image           = "${data.google_compute_image.ubuntu.self_link}"
   zone            = "${var.region}-a"
   network         = "${module.network.network_name}"
   subnetwork      = "${module.network.public_subnetwork_name}"
@@ -203,8 +203,10 @@ module bastion {
     map("vmrole", "jumpbox"),
     map("visibility", "private")
   )}"
+
+  metadata {
+    ssh-keys           = "${local.ssh_keys}"
+    user-data          = "${data.template_cloudinit_config.bastion_cloud_init.rendered}"
+    user-data-encoding = "base64"
+  }
 }
-
-# curl "http://metadata.google.internal/computeMetadata/v1/instance/hostname" \
-# -H "Metadata-Flavor: Google"
-

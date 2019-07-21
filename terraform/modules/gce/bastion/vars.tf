@@ -26,3 +26,8 @@ variable labels {
 variable admin_whitelist {
   type = "list"
 }
+
+variable metadata {
+  type = "map"
+  default = {}
+}

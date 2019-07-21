@@ -18,9 +18,7 @@ resource google_compute_instance this {
     }
   }
 
-  metadata {
-    ssh-keys = "${var.ssh_keys}"
-  }
+  metadata = "${var.metadata}"
 
   network_interface {
     subnetwork = "${var.subnetwork}"

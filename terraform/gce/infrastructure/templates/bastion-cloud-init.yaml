@@ -1,0 +1,28 @@
+#cloud-config
+# vim: syntax=yaml
+
+repo_update: true
+repo_upgrade: all
+
+packages:
+  - keychain
+
+write_files:
+- path: /etc/ssh/sshd_config
+  content: |
+    UseDNS no
+    ClientAliveInterval 120
+    Subsystem       sftp    /usr/lib/openssh/sftp-server
+    AcceptEnv LANG LC_*
+    Match User ks8
+          AllowAgentForwarding yes
+          PermitTTY yes
+          PermitTunnel yes
+
+runcmd:
+- service ssh restart
+
+output:
+  output: { all: "| tee -a /var/log/cloud-init-output.log" }
+
+final_message: "The system is up, after $UPTIME seconds"
