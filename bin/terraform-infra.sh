@@ -1,8 +1,11 @@
 #!/bin/bash
-# https://github.com/cxhercules/demo-k8s-kubespray-gcp/blob/master/scripts/kubespray.sh
+
 set -euo pipefail
+
+# https://github.com/cxhercules/demo-k8s-kubespray-gcp/blob/master/scripts/kubespray.sh
 # https://github.com/cxhercules/demo-k8s-kubespray-gcp/tree/master/k8s-impl/tmpl-public-net
 # : $REGION
+
 : $TF_STATE_BUCKET
 : $PROJECT_ID
 
@@ -11,40 +14,43 @@ PROJECT=terraform/gcp/dev
 # export TF_VAR_region=${REGION}
 export TF_VAR_state_bucket=${TF_STATE_BUCKET}
 export TF_VAR_project_id=${PROJECT_ID}
-export TF_VAR_private_ssh_path="${PWD}/cust_id_tfm_rsa"
-MODULE="terraform/test-folder/"
+export TF_VAR_private_ssh_path="${PWD}/states/cust_id_tfm_rsa"
 
-STATE="test-base.tfstate"
+MODULE="${PWD}/terraform/gce/infrastructure"
 
-#  Generate a key
-
-# ssh-keygen -t rsa -b 2048 -f cust_id_rsa -q -N ""
-
-MODULE=tform
+STATE="${PWD}/states/terraform.tfstate"
+REMOTE_STATE_PREFIX="gce/infrastructure"
 
 terraform init \
--backend-config="bucket=stakxlv0-tf-states" \
--backend-config="prefix=kubespray" \
+-backend-config="bucket=${TF_STATE_BUCKET}" \
+-backend-config="prefix=${REMOTE_STATE_PREFIX}" \
 -backend=true -get=true -force-copy \
 -reconfigure $MODULE
 
-# terraform plan \
-# -refresh=true \
-# -var-file="$MODULE/terraform.tfvars" \
-# $MODULE | landscape
+# terraform init -get=true -force-copy \
+# -reconfigure $MODULE
 
 terraform apply \
 -refresh=true \
 -var-file="$MODULE/terraform.tfvars" \
-$MODULE
+$MODULE | landscape
+
+# -state="${STATE}" \
 
 # terraform destroy \
 # -refresh=true \
+# -state="${STATE}" \
 # -var-file="$MODULE/terraform.tfvars" \
 # $MODULE
+
+if test -f "$TF_VAR_private_ssh_path"; then
+  ssh-add -D
+  chmod 400 ${TF_VAR_private_ssh_path}
+  ssh-add -K ${TF_VAR_private_ssh_path}
+fi
+
 
 # gcloud compute instances list
 # gcloud compute ssh k8s-jumpbox --zone europe-west2-a
 # ssh -i cust_id_tfm_rsa k8s@35.189.105.9
 
-gcloud compute instances list

@@ -5,3 +5,9 @@ help:
 
 ssh-tunnel: ## create ssh tunnel
 	@bin/sshtunnel.sh
+
+gce-instances: ## list GCE instances
+	@gcloud compute instances list
+
+gce-infra: ## Setup GCE infrastructure
+	@bin/terraform-infra.sh

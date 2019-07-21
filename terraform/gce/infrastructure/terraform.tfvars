@@ -1,4 +1,4 @@
-pub_key = "cust_id_rsa.pub" # path for a key to login to jumpbox
+# pub_key = "cust_id_rsa.pub" # path for a key to login to jumpbox
 
 environment = "dev"
 

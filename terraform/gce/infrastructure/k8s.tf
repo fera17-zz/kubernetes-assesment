@@ -4,9 +4,20 @@ provider google {
   version = "~> 1.20"
 }
 
-provider template {
-  version = "~> 1.0"
+terraform {
+  # The example is not compatible with any versions below 0.12.
+  # required_version = ">= 0.12"
+  # Back End
+  backend "gcs" {}
 }
+
+provider template {
+  version = "2.1.2"
+}
+
+# provider template {
+#   version = "~> 1.0"
+# }
 
 provider tls {
   version = "2.0"
@@ -16,22 +27,6 @@ provider local {
   version = "~> 1.3"
 }
 
-provider null {
-  version = "~> 1.0"
-}
-
-resource random_id token_prefix {
-  byte_length = 5
-}
-
-resource random_id token_suffix {
-  byte_length = 3
-}
-
-resource random_id cluster_uid {
-  byte_length = 8
-}
-
 # ---------------------------------------------------------------------------------------------------------------------
 # Create the Network & corresponding Router to attach other resources to
 # Networks that preserve the default route are automatically enabled for Private Google Access to GCP services
@@ -39,7 +34,7 @@ resource random_id cluster_uid {
 # ---------------------------------------------------------------------------------------------------------------------
 
 module network {
-  source = "../../../tf-modules/network"
+  source = "../../modules/gce/network"
 
   project                = "${var.project}"
   region                 = "${var.region}"
@@ -59,7 +54,7 @@ module network {
 # ---------------------------------------------------------------------------------------------------------------------
 
 module nat {
-  source     = "../../../tf-modules/nat"
+  source     = "../../modules/gce/nat"
   project    = "${var.project}"
   prefix     = "${var.prefix}"
   region     = "${var.region}"
@@ -68,7 +63,7 @@ module nat {
 }
 
 module masters {
-  source = "../../../tf-modules/compute"
+  source = "../../modules/gce/compute"
 
   name                      = "${var.prefix}-master"
   project                   = "${var.project}"
@@ -92,15 +87,11 @@ module masters {
 
   metadata {
     ssh-keys = "${local.ssh_keys}"
-
-    # user-data          = "${data.template_cloudinit_config.master.rendered}"
-    # user-data-encoding = "base64"
-    # pod-cidr           = "${var.pod_cidr}"
   }
 }
 
 module workers {
-  source = "../../../tf-modules/compute"
+  source = "../../modules/gce/compute"
 
   name                      = "${var.prefix}-worker"
   project                   = "${var.project}"
@@ -229,7 +220,7 @@ module workers {
 
 # BASTION
 module bastion {
-  source = "../../../tf-modules/bastion"
+  source = "../../modules/gce/bastion"
 
   create     = true
   prefix     = "${var.prefix}"

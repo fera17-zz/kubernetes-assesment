@@ -1,4 +1,3 @@
-variable pub_key {}
 variable region {}
 variable project {}
 variable prefix {}
