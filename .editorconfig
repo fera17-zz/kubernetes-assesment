@@ -49,4 +49,7 @@ indent_size              = 4
 indent_style             = space
 max_line_length          = 80
 
+[Vagrantfile]
+indent_size = 2
+indent_style = space
 
