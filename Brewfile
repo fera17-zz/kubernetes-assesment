@@ -27,8 +27,8 @@ brew "git-secrets"
 brew "jinja2-cli"
 # Lightweight and flexible command-line JSON processor
 brew "jq"
-# Kubernetes command-line interface
-brew "kubernetes-cli"
+# Kubernetes command-line interface. 
+# brew "kubernetes-cli"
 # Tool that can switch between kubectl contexts easily and create aliases
 brew "kubectx"
 # The Kubernetes package manager
@@ -55,5 +55,3 @@ brew "z"
 brew "mveritym/mel/kubedecode"
 # ci
 # brew "jenkins-x/jx/jx"
-
-# https://medium.com/@Joachim8675309/virtualbox-and-friends-on-macos-fd0b78c71a32

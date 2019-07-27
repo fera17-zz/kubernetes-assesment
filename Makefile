@@ -21,3 +21,12 @@ ssh-bastion: ## Test ssh to bastion
 
 gce-spray-prepare: ## Prepare kubespray
 	@bin/prepare-kubespray-cfg.sh
+
+up: ## Create local development Vagrant box
+	@vagrant up
+
+stop: ## Stoplocal development Vagrant box
+	@vagrant halt
+
+destroy: ## Destroy local development Vagrant box
+	@vagrant destroy --force
