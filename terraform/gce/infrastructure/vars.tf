@@ -5,9 +5,11 @@ variable jumpbox_create {}
 variable jumpbox_type {}
 variable owner {}
 variable master_type {}
-variable master_group_size {}
+variable master_size {}
 variable worker_type {}
-variable worker_group_size {}
+variable worker_size {}
+variable etcd_type {}
+variable etcd_size {}
 variable update_strategy {}
 variable environment {}
 variable private_ssh_path {}

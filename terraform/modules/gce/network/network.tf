@@ -44,13 +44,55 @@ resource google_compute_subnetwork private {
 # private - allow ingress from within this network
 # ---------------------------------------------------------------------------------------------------------------------
 
-resource google_compute_firewall nodes_firewall {
-  name = "${var.prefix}-nodes-firewall"
+# resource google_compute_firewall nodes_firewall {
+#   name = "${var.prefix}-nodes-firewall"
+#   project = "${var.project}"
+#   network = "${google_compute_network.this.self_link}"
+#   description = "node firewall rules"
+#   target_tags = ["private"]
+#   direction   = "INGRESS"
+
+#   source_ranges = [
+#     "${google_compute_subnetwork.public.ip_cidr_range}",
+#     "${google_compute_subnetwork.private.ip_cidr_range}",
+#   ]
+
+#   priority = "1000"
+
+#   allow {
+#     protocol = "tcp"
+#     ports    = ["1-65535"]
+#   }
+
+#   allow {
+#     protocol = "udp"
+#     ports    = ["1-65535"]
+#   }
+
+#   allow {
+#     protocol = "icmp"
+#   }
+
+#   allow {
+#     protocol = "esp"
+#   }
+
+
+#   allow {
+#     protocol = "ah"
+#   }
+
+
+#   allow {
+#     protocol = "sctp"
+#   }
+# }
+
+resource google_compute_firewall nodes_firewall_internal_communicatons {
+  name = "${var.prefix}-nodes-communications"
   project = "${var.project}"
   network = "${google_compute_network.this.self_link}"
   description = "node firewall rules"
-  target_tags = ["private"]
-  direction   = "INGRESS"
 
   source_ranges = [
     "${google_compute_subnetwork.public.ip_cidr_range}",
@@ -72,92 +114,24 @@ resource google_compute_firewall nodes_firewall {
   allow {
     protocol = "icmp"
   }
+
+  allow {
+    protocol = "esp"
+  }
+
+
+  allow {
+    protocol = "ah"
+  }
+
+
+  allow {
+    protocol = "sctp"
+  }
+
+  target_tags = ["private"]
 }
 
-# resource google_compute_firewall private_allow_all_network_inbound {
-#   name = "${var.prefix}-private-allow-ingress"
 
 
-#   project = "${var.project}"
-#   network = "${google_compute_network.this.self_link}"
-
-
-#   target_tags = ["private"]
-#   direction   = "INGRESS"
-
-
-#   source_ranges = [
-#     "${google_compute_subnetwork.public.ip_cidr_range}",
-#     "${google_compute_subnetwork.private.ip_cidr_range}",
-#   ]
-
-
-#   priority = "1000"
-
-
-#   allow {
-#     protocol = "tcp"
-# 	ports    = ["1-65535"]
-#   }
-
-
-#   allow {
-#     protocol = "udp"
-# 	ports    = ["1-65535"]
-#   }
-
-
-#   allow {
-#     protocol = "icmp"
-#   }
-
-
-#   # source_ranges = ["${var.cidr_block}"]
-#   source_ranges = ["0.0.0.0/0"]
-# }
-
-
-# resource google_compute_firewall int {
-#   name    = "${var.prefix}-int-fw"
-#   network = "${var.network}"
-
-
-#   allow {
-#     protocol = "icmp"
-#   }
-
-
-#   allow {
-#     protocol = "tcp"
-#   }
-
-
-#   allow {
-#     protocol = "udp"
-#   }
-
-
-#   allow {
-#     protocol = "esp"
-#   }
-
-
-#   allow {
-#     protocol = "ah"
-#   }
-
-
-#   allow {
-#     protocol = "sctp"
-#   }
-
-
-#   allow {
-#     protocol = "tcp"
-#     ports    = ["22"]
-#   }
-
-
-#   source_ranges = ["${var.cidr_block}"]
-# }
 

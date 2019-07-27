@@ -67,7 +67,7 @@ module masters {
   instance_subnetwork       = "${module.network.private_subnetwork_name}"
   compute_image             = "${data.google_compute_image.ubuntu.self_link}"
   distribution_policy_zones = ["${data.google_compute_zones.available.names}"]
-  replicas                  = "${var.master_group_size}"
+  replicas                  = "${var.master_size}"
   service_port              = "${var.master_service_port}"
   service_port_name         = "kubeapi"
   disk_size_gb              = "50"
@@ -80,7 +80,7 @@ module masters {
   )}"
 
   metadata {
-    ssh-keys = "${local.ssh_keys}"
+    ssh-keys           = "${local.ssh_keys}"
     user-data          = "${data.template_cloudinit_config.cloud_init.rendered}"
     user-data-encoding = "base64"
   }
@@ -97,7 +97,7 @@ module workers {
   instance_subnetwork       = "${module.network.private_subnetwork_name}"
   compute_image             = "${data.google_compute_image.ubuntu.self_link}"
   distribution_policy_zones = ["${data.google_compute_zones.available.names}"]
-  replicas                  = "${var.worker_group_size}"
+  replicas                  = "${var.worker_size}"
   can_ip_forward            = "true"
   disk_size_gb              = "50"
   wait_for_instances        = true
@@ -108,7 +108,35 @@ module workers {
   )}"
 
   metadata {
-    ssh-keys = "${local.ssh_keys}"
+    ssh-keys           = "${local.ssh_keys}"
+    user-data          = "${data.template_cloudinit_config.cloud_init.rendered}"
+    user-data-encoding = "base64"
+  }
+}
+
+module etcd {
+  source = "../../modules/gce/compute"
+
+  name                      = "${var.prefix}-etcd"
+  project                   = "${var.project}"
+  region                    = "${var.region}"
+  tags                      = "${local.etcd_tags}"
+  machine_type              = "${var.etcd_type}"
+  instance_subnetwork       = "${module.network.private_subnetwork_name}"
+  compute_image             = "${data.google_compute_image.ubuntu.self_link}"
+  distribution_policy_zones = ["${data.google_compute_zones.available.names}"]
+  replicas                  = "${var.etcd_size}"
+  can_ip_forward            = "true"
+  disk_size_gb              = "50"
+  wait_for_instances        = true
+
+  instance_labels = "${merge(local.labels,
+    map("vmrole", "etcd"),
+    map("visibility", "private")
+  )}"
+
+  metadata {
+    ssh-keys           = "${local.ssh_keys}"
     user-data          = "${data.template_cloudinit_config.cloud_init.rendered}"
     user-data-encoding = "base64"
   }
@@ -164,23 +192,8 @@ module bastion {
   )}"
 
   metadata {
-    ssh-keys = "${local.ssh_keys}"
+    ssh-keys           = "${local.ssh_keys}"
+    user-data          = "${data.template_cloudinit_config.bastion_cloud_init.rendered}"
+    user-data-encoding = "base64"
   }
 }
-
-#  NOT yet required
-
-
-# resource google_compute_firewall calico {
-#   name    = "${var.prefix}-calico-ipip1"
-#   network = "${module.network.network_name}"
-
-
-#   allow {
-#     protocol = "ipip"
-#   }
-
-
-#   source_ranges = ["${compact(list("10.128.0.0/9", "${var.cidr_block}"))}"]
-# }
-

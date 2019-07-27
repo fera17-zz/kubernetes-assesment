@@ -55,8 +55,8 @@ output load_balancer_external_static_ip {
   value = "${module.load_balancer.external_ip}"
 }
 
-output node_cloud_init {
-  value = "${base64decode(data.template_cloudinit_config.cloud_init.rendered)}"
-}
+# output node_cloud_init {
+#   value = "${base64decode(data.template_cloudinit_config.cloud_init.rendered)}"
+# }
 
 # cluster

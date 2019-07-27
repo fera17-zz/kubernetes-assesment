@@ -19,7 +19,7 @@ ssh-bastion: ## Test ssh to bastion
 	@ssh-add -D -K states/cust_id_tfm_rsa
 	@ssh -o 'ForwardAgent yes' -o "StrictHostKeyChecking=no" -i states/cust_id_tfm_rsa k8s@35.189.105.90 -A
 
-gce-spray-prepare: ## Prepare kubespray
+gce-spray: ## Prepare kubespray for GCE
 	@bin/prepare-kubespray-cfg.sh
 
 up: ## Create local development Vagrant box

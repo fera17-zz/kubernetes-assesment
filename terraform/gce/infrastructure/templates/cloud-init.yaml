@@ -4,11 +4,16 @@
 repo_update: true
 repo_upgrade: all
 
+packages:
+- gnupg2
+- python3
+- python3-pip
+
 write_files:
 - path: /etc/ssh/sshd_config
   content: |
     UseDNS no
-    ClientAliveInterval 240
+    ClientAliveInterval 340
     Subsystem       sftp    /usr/lib/openssh/sftp-server
     AcceptEnv LANG LC_*
     AllowUsers ${user}
@@ -16,6 +21,7 @@ write_files:
     PubkeyAuthentication yes
     PasswordAuthentication no
     ChallengeResponseAuthentication no
+
 
 runcmd:
 - systemctl restart sshd

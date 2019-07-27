@@ -27,10 +27,6 @@ brew "git-secrets"
 brew "jinja2-cli"
 # Lightweight and flexible command-line JSON processor
 brew "jq"
-# Kubernetes command-line interface. 
-# brew "kubernetes-cli"
-# Tool that can switch between kubectl contexts easily and create aliases
-brew "kubectx"
 # The Kubernetes package manager
 brew "kubernetes-helm"
 # Terminal-based visual file manager
@@ -54,4 +50,12 @@ brew "z"
 # Decode all parts of a kubernetes secret, no more copypasting!
 brew "mveritym/mel/kubedecode"
 # ci
-# brew "jenkins-x/jx/jx"
+if OS.mac?
+  brew "jenkins-x/jx/jx"
+  # Kubernetes command-line interface.
+  brew "kubernetes-cli"
+  # Tool that can switch between kubectl contexts easily and create aliases
+  brew "kubectx"
+  # Terraform switcher
+  brew "tfswitch"
+end

@@ -28,7 +28,7 @@ apt-get install -qqy  \
   build-essential curl git-core lsb-release \
   libpcre3-dev mercurial pkg-config zip \
   file vim ruby wget \
-  python-setuptools python-dev python3 python3-pip && pip3 install -U crcmod
+  python-setuptools python-dev python3 python3-pip && pip3 install -U crcmod && pip3 install -r /vagrant/requirements.txt
 export CLOUD_SDK_VERSION=255.0.0
 export CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
@@ -62,6 +62,7 @@ provider_boxes = {
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.hostname = "workstation"
   config.vm.box_check_update = false
+  config.ssh.forward_agent = true
 
   # Don't attempt to update Virtualbox Guest Additions (requires gcc)
   if Vagrant.has_plugin?('vagrant-vbguest') then
@@ -74,7 +75,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision "prepare-shell", type: 'shell', privileged: false, inline: <<-SHELL
     sudo sed -i '/tty/!s/mesg n/tty -s \\&\\& mesg n/' /root/.profile
-    echo "cd /vagrant" >> /home/vagrant/.bashrc
   SHELL
 
   config.vm.provision "system-setup", type: "shell", inline: $script_sudo, privileged: true
@@ -87,7 +87,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
   # Copy google cloud credentials file. TODO: encrypt it
-  config.vm.provision "file", source: ENV['GCLOUD_TF_CREDS'], destination: "/home/vagrant/gcloud/#{ENV['PROJECT_ID']}-terraform-admin.json"
+  config.vm.provision "file", source: ENV['GCLOUD_TF_CREDS'], destination: "/home/vagrant/.config/gcloud/#{ENV['PROJECT_ID']}-terraform-admin.json"
+  config.vm.provision "file", source: ENV['GCLOUD_CONFIG'], destination: "/home/vagrant/.config/gcloud/configurations/config_default"
 
   config.vm.provider :docker do |v, override|
     override.vm.box = "tknerr/baseimage-ubuntu-#{UBUNTUVERSION}"

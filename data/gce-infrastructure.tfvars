@@ -8,9 +8,11 @@ project = "stakxlv0"
 
 prefix = "k8s"
 
-master_group_size = 3
+master_size = 3
 
-worker_group_size = 3
+worker_size = 2
+
+etcd_size = 3
 
 jumpbox_create = true
 
@@ -20,12 +22,14 @@ master_type = "g1-small"
 
 worker_type = "g1-smal"
 
+etcd_type = "f1-micro"
+
 # find it with data
 owner = "ivanka"
 
 access_config = []
 
-update_strategy = "MIGRATE"
+update_strategy = "NOME"
 
 service_account_scopes = [
   "https://www.googleapis.com/auth/devstorage.read_only",

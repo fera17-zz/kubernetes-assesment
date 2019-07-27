@@ -4,18 +4,26 @@
 repo_update: true
 
 packages:
-  - keychain
+- gnupg2
+- python3
+- python3-pip
+- openssh-client
 
 write_files:
 - path: /etc/ssh/sshd_config
   content: |
     UseDNS no
-    ClientAliveInterval 120
+    ClientAliveInterval 340
     Subsystem       sftp    /usr/lib/openssh/sftp-server
     AcceptEnv LANG LC_*
     AllowUsers k8s
-    Match User ks8
-          AllowAgentForwarding yes
+    AllowAgentForwarding yes
+    PermitTTY yes
+    PermitTunnel yes
+    AllowTcpForwarding yes
+    PasswordAuthentication no
+    ChallengeResponseAuthentication no
+    PubkeyAuthentication yes
 
 runcmd:
 - systemctl restart sshd

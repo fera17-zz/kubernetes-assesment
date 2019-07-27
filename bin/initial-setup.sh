@@ -13,11 +13,16 @@ if ! grep -qF "#step1" $BASH_PROFILE;
 then {
   yes | sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
   yes | sh -c "$(curl -fsSL https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh)"
+  git clone https://github.com/ahmetb/kubectx ~/.kubectx
+  COMPDIR=$(pkg-config --variable=completionsdir bash-completion)
+  sudo ln -sf ~/.kubectx/completion/kubens.bash $COMPDIR/kubens
+  sudo ln -sf ~/.kubectx/completion/kubectx.bash $COMPDIR/kubectx
   sudo mkdir -p $BREW_LINKED_DIR
   sudo chown -R $(whoami) $BREW_LINKED_DIR
   echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >>$BASH_PROFILE;
   echo 'PATH=/home/linuxbrew/.linuxbrew/Homebrew/Library/Homebrew/vendor/portable-ruby/current/bin:$PATH' >>$BASH_PROFILE;
   echo 'PATH=/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH' >>$BASH_PROFILE;
+  echo 'PATH=~/.kubectx:$PATH' >>$BASH_PROFILE;
   cat << EOF |
 
 cdtfswitch(){
@@ -25,10 +30,6 @@ cdtfswitch(){
   if [ -f ".tfswitchrc" ]; then
     tfswitch
   fi
-}
-
-reminder_cd() {
-    builtin cd "$@" && { cdtfswitch }
 }
 
 #step1 $(date +%F)
@@ -47,6 +48,7 @@ brew list
 if ! grep -qF "#step2" $BASH_PROFILE;
 then {
   echo 'eval "$(direnv hook bash)"' >> $BASH_PROFILE
+  echo "cd /vagrant && /home/linuxbrew/.linuxbrew/bin/direnv allow && /usr/local/bin/tfswitch" >> /home/vagrant/.bashrc
   cat << EOF |
 
 source <(kubectl completion bash)
@@ -82,15 +84,16 @@ source $BASH_PROFILE
 echo "software installed"
 set +e
 {
-  pip3 --version
   python3 --version
   gcloud --version
   jq --version
   yq --version
   ansible --version
   jinja2 --version
-  # kubectl version
+  kubectl version --client
+  helm version --client
 }
 
 # Test Kitchen: https://medium.com/@Joachim8675309/virtualbox-and-friends-on-macos-fd0b78c71a32
 # PHP https://stephenradford.me/setup-a-new-mac-in-5-minutes/
+# https://jenkins-x.io/getting-started/install/

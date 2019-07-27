@@ -10,6 +10,7 @@ locals {
   ssh_keys = "${var.ssh_user}:${local.ssh_pub_key_without_new_line} ${var.ssh_user}"
   master_tags = ["${var.prefix}-master", "private"]
   worker_tags = ["${var.prefix}-worker", "private"]
+  etcd_tags = ["${var.prefix}-etcd", "private"]
 }
 
 data google_compute_image ubuntu {
