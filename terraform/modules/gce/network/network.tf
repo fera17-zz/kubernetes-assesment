@@ -19,19 +19,12 @@ resource google_compute_network this {
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource google_compute_subnetwork public {
-  name = "${var.prefix}-public"
-
-  project = "${var.project}"
-  region  = "${var.region}"
-  network = "${google_compute_network.this.self_link}"
-
+  name                     = "${var.prefix}-public"
+  project                  = "${var.project}"
+  region                   = "${var.region}"
+  network                  = "${google_compute_network.this.self_link}"
   private_ip_google_access = true
   ip_cidr_range            = "${var.public_cidr_block}"
-
-#   secondary_ip_range {
-#     range_name    = "public-services"
-#     ip_cidr_range = "${var.secondary_public_cidr}"
-#   }
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -39,31 +32,23 @@ resource google_compute_subnetwork public {
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource google_compute_subnetwork private {
-  name = "${var.prefix}-private"
-
-  project = "${var.project}"
-  region  = "${var.region}"
-  network = "${google_compute_network.this.self_link}"
-
+  name                     = "${var.prefix}-private"
+  project                  = "${var.project}"
+  region                   = "${var.region}"
+  network                  = "${google_compute_network.this.self_link}"
   private_ip_google_access = true
-  ip_cidr_range = "${var.private_cidr_block}"
-
-  secondary_ip_range {
-    range_name = "private-services"
-    ip_cidr_range = "${var.secondary_private_cidr}"
-  }
+  ip_cidr_range            = "${var.private_cidr_block}"
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
 # private - allow ingress from within this network
 # ---------------------------------------------------------------------------------------------------------------------
 
-resource google_compute_firewall private_allow_all_network_inbound {
-  name = "${var.prefix}-private-allow-ingress"
-
+resource google_compute_firewall nodes_firewall {
+  name = "${var.prefix}-nodes-firewall"
   project = "${var.project}"
   network = "${google_compute_network.this.self_link}"
-
+  description = "node firewall rules"
   target_tags = ["private"]
   direction   = "INGRESS"
 
@@ -76,17 +61,103 @@ resource google_compute_firewall private_allow_all_network_inbound {
 
   allow {
     protocol = "tcp"
-	ports    = ["1-65535"]
+    ports    = ["1-65535"]
   }
 
   allow {
     protocol = "udp"
-	ports    = ["1-65535"]
+    ports    = ["1-65535"]
   }
 
   allow {
     protocol = "icmp"
   }
-
-  source_ranges = ["${var.cidr_block}"]
 }
+
+# resource google_compute_firewall private_allow_all_network_inbound {
+#   name = "${var.prefix}-private-allow-ingress"
+
+
+#   project = "${var.project}"
+#   network = "${google_compute_network.this.self_link}"
+
+
+#   target_tags = ["private"]
+#   direction   = "INGRESS"
+
+
+#   source_ranges = [
+#     "${google_compute_subnetwork.public.ip_cidr_range}",
+#     "${google_compute_subnetwork.private.ip_cidr_range}",
+#   ]
+
+
+#   priority = "1000"
+
+
+#   allow {
+#     protocol = "tcp"
+# 	ports    = ["1-65535"]
+#   }
+
+
+#   allow {
+#     protocol = "udp"
+# 	ports    = ["1-65535"]
+#   }
+
+
+#   allow {
+#     protocol = "icmp"
+#   }
+
+
+#   # source_ranges = ["${var.cidr_block}"]
+#   source_ranges = ["0.0.0.0/0"]
+# }
+
+
+# resource google_compute_firewall int {
+#   name    = "${var.prefix}-int-fw"
+#   network = "${var.network}"
+
+
+#   allow {
+#     protocol = "icmp"
+#   }
+
+
+#   allow {
+#     protocol = "tcp"
+#   }
+
+
+#   allow {
+#     protocol = "udp"
+#   }
+
+
+#   allow {
+#     protocol = "esp"
+#   }
+
+
+#   allow {
+#     protocol = "ah"
+#   }
+
+
+#   allow {
+#     protocol = "sctp"
+#   }
+
+
+#   allow {
+#     protocol = "tcp"
+#     ports    = ["22"]
+#   }
+
+
+#   source_ranges = ["${var.cidr_block}"]
+# }
+

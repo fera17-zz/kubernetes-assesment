@@ -37,12 +37,11 @@ resource google_compute_instance_template this {
 }
 
 resource google_compute_region_instance_group_manager this {
-  project            = "${var.project}"
-  name               = "${var.name}"
-  description        = "compute vm instance group"
-  wait_for_instances = "${var.wait_for_instances}"
-  base_instance_name = "${var.name}"
-
+  project                   = "${var.project}"
+  name                      = "${var.name}"
+  description               = "compute vm instance group"
+  wait_for_instances        = "${var.wait_for_instances}"
+  base_instance_name        = "${var.name}"
   instance_template         = "${google_compute_instance_template.this.self_link}"
   region                    = "${var.region}"
   distribution_policy_zones = ["${var.distribution_policy_zones}"]

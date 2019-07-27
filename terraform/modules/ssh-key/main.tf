@@ -11,7 +11,6 @@ variable rsa_bits {
 }
 
 variable private_ssh_path {}
-variable private_ssh_key {}
 
 #############
 # RESOURCES #
@@ -22,11 +21,15 @@ resource tls_private_key this {
   rsa_bits  = "${var.rsa_bits}"
 }
 
-resource local_file private_ssh {
-  sensitive_content = "${var.private_ssh_key}"
+resource local_file private_key {
+  sensitive_content = "${tls_private_key.this.private_key_pem}"
   filename          = "${var.private_ssh_path}"
 }
 
+resource local_file public_rsa {
+  sensitive_content = "${tls_private_key.this.public_key_openssh}"
+  filename          = "${var.private_ssh_path}.pub"
+}
 ###########
 # OUTPUTS #
 ###########

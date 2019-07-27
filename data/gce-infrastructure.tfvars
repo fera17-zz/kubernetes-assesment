@@ -1,8 +1,4 @@
-# pub_key = "cust_id_rsa.pub" # path for a key to login to jumpbox
-
 environment = "dev"
-
-# api_key = "gcp-creds.json" # GCP credentials file
 
 ssh_user = "k8s"
 
@@ -12,9 +8,9 @@ project = "stakxlv0"
 
 prefix = "k8s"
 
-master_group_size = 2
+master_group_size = 3
 
-worker_group_size = 2
+worker_group_size = 3
 
 jumpbox_create = true
 
@@ -53,15 +49,15 @@ public_cidr_block = "10.240.0.0/20"
 
 private_cidr_block = "10.240.16.0/20"
 
-# The 10.100.0.0/16 IP address range can host up to 4096 compute instances.
-secondary_cidr_block = "10.200.0.0/16"
-secondary_public_cidr = "10.200.0.0/20"
-secondary_private_cidr = "10.200.16.0/20"
-
 pod_cidr = "192.168.0.0/16"
+
 service_cidr = "10.96.0.0/12"
+
 cluster_internal_domain = "cluster.local"
 
 cni_version = "0.7.5"
+
 calico_version = "v3.5"
+
 pod_network_type = "calico"
+

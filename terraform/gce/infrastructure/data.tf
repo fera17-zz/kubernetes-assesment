@@ -17,6 +17,11 @@ data google_compute_image ubuntu {
   project = "ubuntu-os-cloud"
 }
 
+data google_compute_image coreos {
+  family  = "coreos-stable"
+  project = "coreos-cloud"
+}
+
 data google_compute_zones available {
   region = "${var.region}"
 }

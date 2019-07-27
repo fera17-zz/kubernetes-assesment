@@ -10,6 +10,7 @@ output subnetwork {
 #   value = "${module.workers.region_instance_group}"
 # }
 
+#  bastion
 output bastion_internal_ip {
   value = "${module.bastion.internal_ip}"
 }
@@ -17,6 +18,8 @@ output bastion_internal_ip {
 output bastion_external_ip {
   value = "${module.bastion.external_ip}"
 }
+
+# Access keys
 
 output private_ssh_key {
   value = "${module.ssh_key.private}"
@@ -28,19 +31,15 @@ output public_ssh_key {
   sensitive = true
 }
 
-output private_ssh_path {
-  value = "${var.private_ssh_path}"
-}
+# output private_ssh_path {
+#   value = "${var.private_ssh_path}"
+# }
 
 # output masters_self_links {
 #   value = "${module.masters.region_instance_group}"
 # }
 # output masters_instances {
 #   value = "${module.masters.instances}"
-# }
-
-# output lb_ip {module.masters.region_instance_group
-#   value = "${module.gce-lb.external_ip}"
 # }
 
 # Networking
@@ -52,8 +51,12 @@ output nat_external_static_ip {
   value = "${module.nat.external_ip}"
 }
 
-# output load_balancer_external_static_ip {
-#   value = "${module.load_balancer.external_ip}"
-# }
+output load_balancer_external_static_ip {
+  value = "${module.load_balancer.external_ip}"
+}
+
+output node_cloud_init {
+  value = "${base64decode(data.template_cloudinit_config.cloud_init.rendered)}"
+}
 
 # cluster

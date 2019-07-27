@@ -2,7 +2,6 @@
 # vim: syntax=yaml
 
 repo_update: true
-repo_upgrade: all
 
 packages:
   - keychain
@@ -14,13 +13,13 @@ write_files:
     ClientAliveInterval 120
     Subsystem       sftp    /usr/lib/openssh/sftp-server
     AcceptEnv LANG LC_*
+    AllowUsers k8s
     Match User ks8
           AllowAgentForwarding yes
-          PermitTTY yes
-          PermitTunnel yes
 
 runcmd:
-- service ssh restart
+- systemctl restart sshd
+- systemctl restart ssh
 
 output:
   output: { all: "| tee -a /var/log/cloud-init-output.log" }

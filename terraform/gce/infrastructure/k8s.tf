@@ -15,10 +15,6 @@ provider template {
   version = "2.1.2"
 }
 
-# provider template {
-#   version = "~> 1.0"
-# }
-
 provider tls {
   version = "2.0"
 }
@@ -36,15 +32,13 @@ provider local {
 module network {
   source = "../../modules/gce/network"
 
-  project                = "${var.project}"
-  region                 = "${var.region}"
-  prefix                 = "${var.prefix}"
-  cidr_block             = "${var.cidr_block}"
-  public_cidr_block      = "${var.public_cidr_block}"
-  private_cidr_block     = "${var.private_cidr_block}"
-  secondary_public_cidr  = "${var.secondary_public_cidr}"
-  secondary_private_cidr = "${var.secondary_private_cidr}"
-  admin_whitelist        = "${var.admin_whitelist}"
+  project            = "${var.project}"
+  region             = "${var.region}"
+  prefix             = "${var.prefix}"
+  cidr_block         = "${var.cidr_block}"
+  public_cidr_block  = "${var.public_cidr_block}"
+  private_cidr_block = "${var.private_cidr_block}"
+  admin_whitelist    = "${var.admin_whitelist}"
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -71,13 +65,13 @@ module masters {
   tags                      = "${local.master_tags}"
   machine_type              = "${var.master_type}"
   instance_subnetwork       = "${module.network.private_subnetwork_name}"
-  can_ip_forward            = "true"
   compute_image             = "${data.google_compute_image.ubuntu.self_link}"
-  disk_size_gb              = "50"
   distribution_policy_zones = ["${data.google_compute_zones.available.names}"]
   replicas                  = "${var.master_group_size}"
   service_port              = "${var.master_service_port}"
-  service_port_name         = "apiserver"
+  service_port_name         = "kubeapi"
+  disk_size_gb              = "50"
+  can_ip_forward            = true
   wait_for_instances        = true
 
   instance_labels = "${merge(local.labels,
@@ -86,7 +80,7 @@ module masters {
   )}"
 
   metadata {
-    ssh-keys           = "${local.ssh_keys}"
+    ssh-keys = "${local.ssh_keys}"
     user-data          = "${data.template_cloudinit_config.cloud_init.rendered}"
     user-data-encoding = "base64"
   }
@@ -101,11 +95,11 @@ module workers {
   tags                      = "${local.worker_tags}"
   machine_type              = "${var.master_type}"
   instance_subnetwork       = "${module.network.private_subnetwork_name}"
-  can_ip_forward            = "true"
   compute_image             = "${data.google_compute_image.ubuntu.self_link}"
-  disk_size_gb              = "50"
   distribution_policy_zones = ["${data.google_compute_zones.available.names}"]
   replicas                  = "${var.worker_group_size}"
+  can_ip_forward            = "true"
+  disk_size_gb              = "50"
   wait_for_instances        = true
 
   instance_labels = "${merge(local.labels,
@@ -114,52 +108,18 @@ module workers {
   )}"
 
   metadata {
-    ssh-keys           = "${local.ssh_keys}"
+    ssh-keys = "${local.ssh_keys}"
     user-data          = "${data.template_cloudinit_config.cloud_init.rendered}"
     user-data-encoding = "base64"
   }
 }
 
-# resource google_compute_firewall calico {
-#   name    = "${var.prefix}-calico-ipip1"
-#   network = "${module.network.network_name}"
-
-#   allow {
-#     protocol = "ipip"
-#   }
-
-#   source_ranges = ["${compact(list("10.128.0.0/9", "${var.cidr_block}"))}"]
-# }
-
-# resource google_compute_firewall k8s_traffic {
-#   name    = "${var.prefix}-all-traffic"
-#   network = "${module.network.network_name}"
-
-#   allow {
-#     protocol = "icmp"
-#   }
-
-#   allow {
-#     protocol = "tcp"
-#   }
-
-#   allow {
-#     protocol = "udp"
-#   }
-
-#   allow {
-#     protocol = "esp"
-#   }
-
-#   allow {
-#     protocol = "ah"
-#   }
-
-#   allow {
-#     protocol = "sctp"
-#   }
-
-#   source_ranges = ["${var.pod_cidr}"]
+# module master_lb {
+#   source       = "github.com/GoogleCloudPlatform/terraform-google-lb"
+#   region       = "${var.region}"
+#   name         = "${var.prefix}-admin-lb"
+#   service_port = "${var.master_service_port}"
+#   target_tags  = "${local.master_tags}"
 # }
 
 # TODO: labels
@@ -176,9 +136,8 @@ module load_balancer {
   cidr_block        = "${var.cidr_block}"
   admin_whitelist   = "${var.admin_whitelist}"
   nat_ips           = "${module.nat.external_ip}"
-  target_tags       = ["${var.prefix}-master", "controller"]
   instance_group    = "${module.masters.instance_group}"
-  service_port_name = "apiserver"
+  service_port_name = "kubeapi"
 }
 
 # BASTION
@@ -205,8 +164,23 @@ module bastion {
   )}"
 
   metadata {
-    ssh-keys           = "${local.ssh_keys}"
-    user-data          = "${data.template_cloudinit_config.bastion_cloud_init.rendered}"
-    user-data-encoding = "base64"
+    ssh-keys = "${local.ssh_keys}"
   }
 }
+
+#  NOT yet required
+
+
+# resource google_compute_firewall calico {
+#   name    = "${var.prefix}-calico-ipip1"
+#   network = "${module.network.network_name}"
+
+
+#   allow {
+#     protocol = "ipip"
+#   }
+
+
+#   source_ranges = ["${compact(list("10.128.0.0/9", "${var.cidr_block}"))}"]
+# }
+

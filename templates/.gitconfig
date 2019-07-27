@@ -1,0 +1,74 @@
+[user]
+  name = Ivan Katliarchuk
+  initals = IK
+  email = ivan.katliarchuk@gmail.com
+[branch]
+  autosetuprebase = always
+[core]
+  repositoryformatversion = 0
+  filemode = false
+  logallrefupdates = true
+  autocrlf = input
+  # Treat spaces before tabs and all kinds of trailing whitespace as an error
+  # [default] trailing-space: looks for spaces at the end of a line
+  # [default] space-before-tab: looks for spaces before tabs at the beginning of a line
+  whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+  safecrlf = false
+  # Make `git rebase` safer on macOS
+  # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
+  trustctime = false
+[merge]
+  tool = vimdiff
+[color]
+  ui = true
+[alias]
+  set-upstream = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`
+  co = checkout
+  ci = commit
+  st = status
+  stb = status -sb
+  br = branch
+  hists = log --pretty=format:'%h %ad | %s%d [%an]' --reverse --date=short -n 85
+  hist = log --reverse -n 55 --decorate --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all
+  grog = log --graph -n 95 --abbrev-commit --decorate --all --format=format:\"%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(dim white) - %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n %C(white)%s%C(reset)\"
+  type = cat-file -t
+  dump = cat-file -p
+  dc = diff --cached
+  commend = commit --amend --no-edit
+  it = !git init && git commit -m \"root\" --allow-empty
+  stsh = stash --keep-index
+  staash = stash --include-untracked
+  staaash = stash --all
+  shorty = status --short --branch
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all
+    untrack = ls-files --ignored --exclude-standard | xargs git rm --cached
+  changes = git show --color --pretty=format:%b
+  pl = pull —rebase
+  plog = log --graph --pretty=format:'%h -%d %s %n' --abbrev-commit --date=relative --branches
+[tag]
+  forceSignAnnotated = false
+[pager]
+  branch = false
+  log = false
+[push]
+  default = current
+  # Make `git push` push relevant annotated tags when pushing branches out.
+  followTags = true
+[color "branch"]
+  current = yellow reverse
+  local = yellow
+  remote = green
+[color "status"]
+  added = green
+  changed = blue normal bold
+  untracked = magenta
+  deleted = red
+[secrets]
+  providers = git secrets --aws-provider
+  patterns = [A-Z0-9]{20}
+  patterns = (\"|')?(AWS|aws|Aws)?_?(SECRET|secret|Secret)?_?(ACCESS|access|Access)?_?(KEY|key|Key)(\"|')?\\s*(:|=>|=)\\s*(\"|')?[A-Za-z0-9/\\+=]{40}(\"|')?
+  patterns = (\"|')?(AWS|aws|Aws)?_?(ACCOUNT|account|Account)_?(ID|id|Id)?(\"|')?\\s*(:|=>|=)\\s*(\"|')?[0-9]{4}\\-?[0-9]{4}\\-?[0-9]{4}(\"|')?
+  allowed = AKIAIOSFODNN7EXAMPLE
+  allowed = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+  allowed = (\"|')[[:alpha:]_]{20,}(\"|')
+

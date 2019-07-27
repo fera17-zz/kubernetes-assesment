@@ -1,7 +1,8 @@
 resource google_compute_firewall ssh {
-  count   = "${var.create ? 1 : 0}"
-  name    = "${var.prefix}-ext-fw"
-  network = "${var.network}"
+  count       = "${var.create ? 1 : 0}"
+  name        = "${var.prefix}-ssh-external"
+  network     = "${var.network}"
+  project     = "${var.project}"
   description = "ssh access"
 
   allow {
@@ -9,57 +10,24 @@ resource google_compute_firewall ssh {
     ports    = ["22"]
   }
 
-  target_tags = ["bastion"]
+  target_tags   = ["bastion"]
   source_ranges = "${var.admin_whitelist}"
 }
 
-# resource google_compute_firewall int {
-#   name    = "${var.prefix}-int-fw"
-#   network = "${var.network}"
-
-#   allow {
-#     protocol = "icmp"
-#   }
-
-#   allow {
-#     protocol = "tcp"
-#   }
-
-#   allow {
-#     protocol = "udp"
-#   }
-
-#   allow {
-#     protocol = "esp"
-#   }
-
-#   allow {
-#     protocol = "ah"
-#   }
-
-#   allow {
-#     protocol = "sctp"
-#   }
-
-#   allow {
-#     protocol = "tcp"
-#     ports    = ["22"]
-#   }
-
-#   source_ranges = ["${var.cidr_block}"]
-# }
-
-resource google_compute_firewall int-egress {
+resource google_compute_firewall bastion_internal {
   name    = "${var.prefix}-int-egress-fw"
   network = "${var.network}"
-#   restrinct it a bit
+  project = "${var.project}"
 
   allow {
-    protocol = "all"
+    protocol = "tcp"
+    ports    = ["22"]
   }
 
-  source_tags = ["bastion"] #"private"
+  allow {
+    protocol = "icmp"
+  }
+
+  source_tags = ["bastion"]
   target_tags = ["private"]
-  # direction          = "EGRESS"
-  # destination_ranges = ["0.0.0.0/0"]
 }

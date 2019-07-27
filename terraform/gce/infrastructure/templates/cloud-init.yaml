@@ -4,21 +4,22 @@
 repo_update: true
 repo_upgrade: all
 
-packages:
-  - build-essential
-  - curl
-  - gnupg2
-  - htop
-  - git-core
-  - apt-transport-https
-  - ca-certificates
-  - keychain
-  - unattended-upgrades
+write_files:
+- path: /etc/ssh/sshd_config
+  content: |
+    UseDNS no
+    ClientAliveInterval 240
+    Subsystem       sftp    /usr/lib/openssh/sftp-server
+    AcceptEnv LANG LC_*
+    AllowUsers ${user}
+    UsePAM yes
+    PubkeyAuthentication yes
+    PasswordAuthentication no
+    ChallengeResponseAuthentication no
 
 runcmd:
-- apt-get remove sshguard -y
-- apt-get remove --auto-remove sshguard -y
-
+- systemctl restart sshd
+- systemctl restart ssh
 
 output:
   output: { all: "| tee -a /var/log/cloud-init-output.log" }

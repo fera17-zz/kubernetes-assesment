@@ -1,5 +1,9 @@
 data template_file cloud_init {
   template = "${file("${path.module}/templates/cloud-init.yaml")}"
+
+  vars {
+    user = "k8s"
+  }
 }
 
 data template_cloudinit_config cloud_init {
@@ -13,7 +17,7 @@ data template_cloudinit_config cloud_init {
 }
 
 data template_file bastion_cloud_init {
-  template = "${file("${path.module}/templates/cloud-init.yaml")}"
+  template = "${file("${path.module}/templates/bastion-cloud-init.yaml")}"
 }
 
 

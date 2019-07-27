@@ -36,16 +36,8 @@ variable master_service_port {}
 # Firewalls https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 
 variable cidr_block {}
-
-variable secondary_cidr_block {
-  description = "The IP address range of the VPC's secondary address range in CIDR notation. A prefix of /16 is recommended."
-  type        = "string"
-}
-
 variable public_cidr_block {}
 variable private_cidr_block {}
-variable secondary_public_cidr {}
-variable secondary_private_cidr {}
 
 # master
 variable cluster_internal_domain {}
