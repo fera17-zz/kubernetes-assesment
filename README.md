@@ -78,40 +78,4 @@ Linux & MacOS. `Vagrantfile` support `Docker` as well as `Oracle VM (classic)` w
 
 ## Create a new infrastructure environment
 
-dependecies
-
-python3 -m pip install --user virtualenv
-pip3 install -r requirements.txt --user
-pip3 uninstall -r requirements.txt -y --user
-python
-brew
-
-```
-python3 -m venv env
-source env/bin/activate
-export PATH="/Users/ivankatliarchuk/Library/Python/3.7/lib/python/site-packages:$PATH"
-pip3 install jinja2-cli
-```
-
-SSH
-UseDNS no
-ClientAliveInterval 120
-Subsystem       sftp    /usr/lib/openssh/sftp-server
-AcceptEnv LANG LC_*
-AllowAgentForwarding yes
-https://www.digitalocean.com/community/tutorials/how-to-use-cloud-config-for-your-initial-server-setup
-service ssh restart
-
-
-PubkeyAuthentication yes
-PasswordAuthentication no
-ChallengeResponseAuthentication no
-
-
-/etc/ssh/sshd_config
-
-
-
-
-	docs
-	https://www.vagrantup.com/docs/provisioning/file.html
+## Helm & Tiller deployment diagram

@@ -33,7 +33,6 @@ variable etcd_type {
 }
 
 variable etcd_size {}
-variable update_strategy {}
 variable environment {}
 variable private_ssh_path {}
 
@@ -43,11 +42,6 @@ variable ssh_user {
 
 variable service_account_scopes {
   default = []
-}
-
-variable access_config {
-  description = "Access configuration, i.e. IP via which instance can be accessed"
-  default     = []
 }
 
 variable cluster_zones {
