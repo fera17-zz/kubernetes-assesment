@@ -29,7 +29,7 @@ validate                       Validate pre commit
 
 ## Cluster Architecture
 
-![alt cluster architecture](data/cluster-architecture.jpg)
+![alt cluster architecture](images/cluster-architecture.jpg)
 
 
 dependecies
