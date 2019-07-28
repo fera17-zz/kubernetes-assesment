@@ -221,3 +221,4 @@ dmypy.json
 .DS_Store
 admin.conf
 hosts.ini
+data/resources

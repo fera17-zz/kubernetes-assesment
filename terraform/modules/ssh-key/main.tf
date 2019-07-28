@@ -30,6 +30,7 @@ resource local_file public_rsa {
   sensitive_content = "${tls_private_key.this.public_key_openssh}"
   filename          = "${var.private_ssh_path}.pub"
 }
+
 ###########
 # OUTPUTS #
 ###########

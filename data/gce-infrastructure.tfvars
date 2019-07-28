@@ -4,11 +4,11 @@ ssh_user = "k8s"
 
 prefix = "k8s"
 
-master_size = 0
+master_size = 3
 
-worker_size = 0
+worker_size = 3
 
-etcd_size = 0
+etcd_size = 3
 
 jumpbox_create = true
 
@@ -31,8 +31,6 @@ service_account_scopes = [
   "https://www.googleapis.com/auth/compute",
   "https://www.googleapis.com/auth/monitoring",
 ]
-
-jumpbox_internal_ip = "10.240.0.2"
 
 admin_whitelist = ["86.1.27.129"]
 

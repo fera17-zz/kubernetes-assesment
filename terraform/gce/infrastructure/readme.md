@@ -1,12 +1,52 @@
-https://github.com/cxhercules/demo-k8s-kubespray-gcp/tree/d9d56c3e28ae88adbb377240abffaf772c559ca6
+# Cluster Infrastructure
 
-current web pagese
-https://github.com/GoogleCloudPlatform/terraform-google-managed-instance-group/blob/master/main.tf
-https://github.com/GoogleCloudPlatform/terraform-google-managed-instance-group/blob/master/variables.tf
-https://github.com/GoogleCloudPlatform/terraform-google-managed-instance-group/blob/master/main.tf
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Inputs
 
-https://www.terraform.io/docs/providers/google/r/compute_instance_group_manager.html
-https://www.terraform.io/docs/providers/google/r/compute_region_instance_group_manager.html
+| Name | Description | Type | Default | Required |
+|------|-------------|:----:|:-----:|:-----:|
+| access\_config | Access configuration, i.e. IP via which instance can be accessed | list | `[]` | no |
+| admin\_whitelist |  | list | n/a | yes |
+| cidr\_block |  | string | n/a | yes |
+| cluster\_zones |  | list | `[]` | no |
+| environment |  | string | n/a | yes |
+| etcd\_service\_port |  | string | n/a | yes |
+| etcd\_size |  | string | n/a | yes |
+| etcd\_type | The machine type to create for etcd | string | n/a | yes |
+| jumpbox\_create | define whether or not jumpbox/bastion is created | string | n/a | yes |
+| jumpbox\_type |  | string | n/a | yes |
+| master\_service\_port |  | string | n/a | yes |
+| master\_size |  | string | n/a | yes |
+| master\_type | The machine type to create for controll plane | string | n/a | yes |
+| prefix | a unique name beginning with the specified prefix | string | n/a | yes |
+| private\_cidr\_block |  | string | n/a | yes |
+| private\_ssh\_path |  | string | n/a | yes |
+| project | the project to deploy to, if not set the default provider project is used | string | n/a | yes |
+| public\_cidr\_block |  | string | n/a | yes |
+| region | region for cloud resources | string | n/a | yes |
+| service\_account\_scopes |  | list | `[]` | no |
+| ssh\_user | The name of the default ssh user | string | n/a | yes |
+| update\_strategy |  | string | n/a | yes |
+| worker\_size |  | string | n/a | yes |
+| worker\_type | The machine type to create for worker | string | n/a | yes |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| bastion\_external\_ip |  |
+| bastion\_internal\_ip | bastion |
+| cidr\_range | Networking |
+| gcr\_location | cluster |
+| load\_balancer\_external\_static\_ip |  |
+| nat\_external\_static\_ip | TODO: inline return types |
+| network |  |
+| private\_ssh\_key |  |
+| private\_ssh\_path |  |
+| public\_ssh\_key |  |
+| subnetwork |  |
+
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 
 ## Need to try
@@ -26,16 +66,7 @@ https://ifritltd.com/2019/06/16/automating-highly-available-kubernetes-cluster-a
 
 ## HA
 https://ifritltd.com/2019/06/16/automating-highly-available-kubernetes-cluster-and-external-etcd-setup-with-terraform-and-kubeadm-on-aws/
-### With  diaagrams CCCOOOOOOO>LLLLL USE it [USEIT]
-https://velotio.com/blog/2018/6/15/kubernetes-high-availability-kubeadm
 
-
-kADMD
-https://github.com/jpweber/kubeadm-terraform/blob/master/control_plane.tpl
-
-ETCD
-DOIT
-https://medium.com/@bambash/ha-kubernetes-cluster-via-kubeadm-b2133360b198
 
 
 https://github.com/kenych/terraform_exs/blob/master/etcd/main.tf
@@ -86,7 +117,7 @@ X509v3 Key Usage: critical
 
 
 READY CLUSTER. USE IT
-        https://github.com/poseidon/typhoon/tree/master/google-cloud/container-linux/kubernetes ready kubo
+https://github.com/poseidon/typhoon/tree/master/google-cloud/container-linux/kubernetes ready kubo
 https://github.com/poseidon/terraform-render-bootkube
 
 

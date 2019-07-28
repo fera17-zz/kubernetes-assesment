@@ -58,15 +58,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.cache.scope = :machine
   end
 
+  config.vm.provision "system-setup", type: "shell", inline: $script_sudo, privileged: true
+  config.vm.provision "user-setup", type: "shell", path: "bin/initial-setup.sh" , privileged: false
+
   config.vm.synced_folder "~/.config/gcloud", "/home/vagrant/.config/gcloud", owner: 'vagrant'
   config.vm.provision "prepare-shell", type: 'shell', privileged: false, inline: <<-SHELL
     sudo sed -i '/tty/!s/mesg n/tty -s \\&\\& mesg n/' /root/.profile
     sudo chown -R $(whoami):$(whoami) ~/.config
     sudo chown -R $(whoami):$(whoami) ~/.cache
     sudo chown -R $(whoami):$(whoami) ~/.ssh
+    pip3 install -r /vagrant/data/requirements.txt
   SHELL
-  config.vm.provision "system-setup", type: "shell", inline: $script_sudo, privileged: true
-  config.vm.provision "user-setup", type: "shell", path: "bin/initial-setup.sh" , privileged: false
 
   %w(.vimrc .gitconfig).each do |f|
     local = File.expand_path "templates/vagrant/#{f}"

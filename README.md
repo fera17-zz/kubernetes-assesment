@@ -3,21 +3,30 @@
 <!-- START makefile-doc -->
 ```
 $ make help 
-make[1]: Entering directory '/vagrant'
 devsetup                       DEV machine setup
 ssh-tunnel                     create ssh tunnel
 list-gce                       list GCE resoruces
 infra-create-gce               Task '2.1' > Setup GCE infrastructure for K8s cluster
+cluster-gce                    Task '2.2' Provision kubernetes cluster for GCE with 'kubespray'
 infra-teardown-gce             Task '13' > Tear down cluster with GCE infrastructure
 ssh-bastion                    Test ssh to bastion
-cluster-gce                    Prepare kubespray cluster for GCE
 up                             Create local development Vagrant box
 stop                           Stoplocal development Vagrant box
 destroy                        Destroy local development Vagrant box
-validate                       Validate pre commit
-make[1]: Leaving directory '/vagrant' 
+validate                       Validate pre commit 
 ```
 <!-- END makefile-doc -->
+
+## Prerequisits
+
+- [Docker](https://www.docker.com/why-docker)
+- [Vagrant](https://www.vagrantup.com/)
+
+## Project structure
+
+## Setup Development Workspace
+
+
 
 dependecies
 
