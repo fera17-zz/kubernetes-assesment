@@ -24,27 +24,27 @@ validate                       Validate pre commit
 
 ## Project structure / Directory Layour
 
-		.
-		├── bin                         # scripts required to provision workspace & infrastructure
-		├── data                        # store terraform parameters, ssh keys, kubeconf file
-		├── images                      # images used in readme & docs
-		├── kubespray                   # [kubespray](https://github.com/kubernetes-sigs/kubespray) project as submodule, forked from
-		├── templates                   # templates used to create Vagrant box as well as provision infrastructure
-		├── terraform                   # infrastructure-as-code terraform sources
-			- cluster                     # cluster provisioning
-			- gce                         # google cloud vendor related sources
-			-- infrastructure
-			- modules                     # infrastructure-as-code modules
-			-- gce
-			-- k8s
-		─── .etidortconfig              # [project formatter](https://editorconfig.org/)
-		─── .envrc                      # (load/unload](https://direnv.net/) project specific environment variables
-		─── .pre-commit-config.yaml     # [framework](https://github.com/pre-commit/pre-commit-hooks) for manaing multi-language pre-commit hooks
-		─── .tfswitchrc                 # [terraform version switcher](https://warrensbox.github.io/terraform-switcher/)
-		─── Brewfile                    # [framework](https://docs.brew.sh/Homebrew-on-Linux) that help to install dependencies for current project
-		─── Makefile                    # tells project what to do
-		─── Vagrantfile                 # [describe](https://www.vagrantup.com/docs/vagrantfile/) what type of machine to build
-		└── README.md                   # current file
+	.
+	├── bin                         # scripts required to provision workspace & infrastructure
+	├── data                        # store terraform parameters, ssh keys, kubeconf file
+	├── images                      # images used in readme & docs
+	├── kubespray                   # [kubespray](https://github.com/kubernetes-sigs/kubespray) project as submodule, forked from
+	├── templates                   # templates used to create Vagrant box as well as provision infrastructure
+	├── terraform                   # infrastructure-as-code terraform sources
+		- cluster                     # cluster provisioning
+		- gce                         # google cloud vendor related sources
+		-- infrastructure
+		- modules                     # infrastructure-as-code modules
+		-- gce
+		-- k8s
+	─── .etidortconfig              # [project formatter](https://editorconfig.org/)
+	─── .envrc                      # (load/unload](https://direnv.net/) project specific environment variables
+	─── .pre-commit-config.yaml     # [framework](https://github.com/pre-commit/pre-commit-hooks) for manaing multi-language pre-commit hooks
+	─── .tfswitchrc                 # [terraform version switcher](https://warrensbox.github.io/terraform-switcher/)
+	─── Brewfile                    # [framework](https://docs.brew.sh/Homebrew-on-Linux) that help to install dependencies for current project
+	─── Makefile                    # tells project what to do
+	─── Vagrantfile                 # [describe](https://www.vagrantup.com/docs/vagrantfile/) what type of machine to build
+	└── README.md                   # current file
 
 All dependencies except docker & vagrant installed automatically on dev workspace.
 
