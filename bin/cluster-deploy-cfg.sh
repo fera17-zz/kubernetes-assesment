@@ -6,6 +6,7 @@ set -euo pipefail
 : $PROJECT_ID
 
 PREFIX=k8s
+PROVIDER=${1}
 
 kubespray_version=${kubespray_versionx:-v2.10.4}
 
@@ -47,7 +48,7 @@ pushd kubespray
     '{ "masters":  ($masters|split(" ")), "nodes":  ($nodes|split(" ")), "etcds":  ($etcds|split(" ")), "bastion_ip": $bastion_ip, "ansible_user": $ansible_user  }' | \
     jinja2 ${current}/templates/hosts.ini.jinja2 > inventory/${run_version}/hosts.ini
 
-  cp inventory/${run_version}/hosts.ini ${current}/hosts.ini
+  cp inventory/${run_version}/hosts.ini ${current}/data/hosts.ini.latest
 
   jq -n --arg lb_ip "$LB_IP" '{ "lb_ip": $lb_ip  }' | \
     jinja2 ${current}/templates/group_vars/all.yml.jinja2 > inventory/${run_version}/group_vars/all/all.yml
@@ -67,7 +68,7 @@ pushd kubespray
 
 on_exit() {
   # tree inventory/${run_version}
-  rm -rf inventory/${run_version}
+  rm -rf kubespray/inventory/${run_version}
   ls -la inventory
 }
 trap on_exit EXIT
@@ -75,8 +76,10 @@ trap on_exit EXIT
 # test priveledge escalation
 ansible -i inventory/${run_version}/hosts.ini -m ping all -f 20 -b
 
-# sudo ansible-playbook -i inventory/${run_version}/hosts.ini cluster.yml -f 30 -b --flush-cache
+ansible-playbook -i inventory/${run_version}/hosts.ini cluster.yml -f 30 -b --flush-cache
 
 popd
-echo "Success for Version: $run_version"
-# cp kubespray/inventory/${run_version}/artifacts/admin.conf data/admin.conf
+echo -e "Success for Version: $run_version. \n Copy kube config file into 'data' folder..."
+echo "Setting up your KUBECONFIG"
+echo "export KUBECONFIG=$(pwd)/data/admin.conf"
+cp kubespray/inventory/${run_version}/artifacts/admin.conf data/admin.conf

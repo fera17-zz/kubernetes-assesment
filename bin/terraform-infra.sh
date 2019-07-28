@@ -9,9 +9,9 @@ PROJECT=terraform/gcp/dev
 
 COMMAND=${1:-plan}
 
-# export TF_VAR_region=${REGION}
+export TF_VAR_region=${REGION}
 export TF_VAR_state_bucket=${TF_STATE_BUCKET}
-export TF_VAR_project_id=${PROJECT_ID}
+export TF_VAR_project=${PROJECT_ID}
 export TF_VAR_private_ssh_path="${PWD}/data/cust_id_rsa"
 
 MODULE="${PWD}/terraform/gce/infrastructure"

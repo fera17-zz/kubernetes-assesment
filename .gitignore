@@ -220,5 +220,5 @@ dmypy.json
 # OSX trash
 .DS_Store
 admin.conf
-hosts.ini
+*/hosts.ini.latest
 data/resources

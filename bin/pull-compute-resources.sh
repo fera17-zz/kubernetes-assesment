@@ -1,15 +1,23 @@
 #!/bin/bash
 
-set -euo pipefail
+set -uo pipefail
 
 : $PROJECT_ID
 : $PREFIX
 
+public_ip() {
+    gcloud compute instances list --filter="${1}" --format=json | jq -r '.[].networkInterfaces[].accessConfigs[].natIP' | tr "\n" " " | sed -e "s/ \{1,\}$//"
+}
+
+private_ip() {
+    gcloud compute instances list --filter="${1}" --format=json | jq -r '.[].networkInterfaces[].networkIP' | tr "\n" " " | sed -e "s/ \{1,\}$//"
+}
+
 # TODO: public ip for bbastion
-bastion_ip=$(gcloud compute instances list --filter="${PREFIX}-bastion" --format=json | jq -r '.[].networkInterfaces[].networkIP' | tr "\n" " " | sed -e "s/ \{1,\}$//")
-master_ips=$(gcloud compute instances list --filter="${PREFIX}-master" --format=json | jq -r '.[].networkInterfaces[].networkIP' | tr "\n" " " | sed -e "s/ \{1,\}$//")
-worker_ips=$(gcloud compute instances list --filter="${PREFIX}-worker" --format=json | jq -r '.[].networkInterfaces[].networkIP' | tr "\n" " " | sed -e "s/ \{1,\}$//")
-etcd_ips=$(gcloud compute instances list --filter="${PREFIX}-etcd" --format=json | jq -r '.[].networkInterfaces[].networkIP' | tr "\n" " " | sed -e "s/ \{1,\}$//")
+bastion_ip=$(public_ip "${PREFIX}-bastion")
+master_ips=$(private_ip "${PREFIX}-master")
+worker_ips=$(private_ip "${PREFIX}-worker")
+etcd_ips=$(private_ip "${PREFIX}-etcd")
 loadbalancer_ip=$(gcloud compute addresses list --filter="${PREFIX}-masters-lb" --format=json | jq -r '.[].address' | tr "\n" " " | sed -e "s/ \{1,\}$//")
 
 cat > "./data/resources" <<EOF
@@ -20,7 +28,3 @@ ETCD_IPS="${etcd_ips}"
 LB_IP="${loadbalancer_ip}"
 ANSIBLE_USER="k8s"
 EOF
-
-
-
-
