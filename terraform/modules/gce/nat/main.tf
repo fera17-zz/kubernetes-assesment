@@ -11,7 +11,7 @@ resource google_compute_router this {
 }
 
 resource google_compute_address this {
-  count       = 1 # TODO: make it configurable
+  count       = 1                                     # TODO: make it configurable
   name        = "nat-external-address-${count.index}"
   description = "NAT ips"
   region      = "${var.region}"
@@ -34,7 +34,6 @@ resource google_compute_router_nat this {
     source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
   }
 }
-
 
 output external_ip {
   value = ["${google_compute_address.this.*.address}"]

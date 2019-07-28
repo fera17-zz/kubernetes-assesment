@@ -33,3 +33,6 @@ stop: ## Stoplocal development Vagrant box
 
 destroy: ## Destroy local development Vagrant box
 	@vagrant destroy --force
+
+validate: ## Validate pre commit
+	@pre-commit run --all-files

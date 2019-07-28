@@ -77,11 +77,9 @@ resource google_compute_subnetwork private {
 #     protocol = "esp"
 #   }
 
-
 #   allow {
 #     protocol = "ah"
 #   }
-
 
 #   allow {
 #     protocol = "sctp"
@@ -89,9 +87,9 @@ resource google_compute_subnetwork private {
 # }
 
 resource google_compute_firewall nodes_firewall_internal_communicatons {
-  name = "${var.prefix}-nodes-communications"
-  project = "${var.project}"
-  network = "${google_compute_network.this.self_link}"
+  name        = "${var.prefix}-nodes-communications"
+  project     = "${var.project}"
+  network     = "${google_compute_network.this.self_link}"
   description = "node firewall rules"
 
   source_ranges = [
@@ -119,11 +117,9 @@ resource google_compute_firewall nodes_firewall_internal_communicatons {
     protocol = "esp"
   }
 
-
   allow {
     protocol = "ah"
   }
-
 
   allow {
     protocol = "sctp"
@@ -131,7 +127,3 @@ resource google_compute_firewall nodes_firewall_internal_communicatons {
 
   target_tags = ["private"]
 }
-
-
-
-

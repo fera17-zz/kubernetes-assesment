@@ -72,9 +72,6 @@ module masters {
   replicas                  = "${var.master_size}"
   service_port              = "${var.master_service_port}"
   service_port_name         = "kubeapi"
-  disk_size_gb              = "50"
-  can_ip_forward            = true
-  wait_for_instances        = true
 
   instance_labels = "${merge(local.labels,
     map("vmrole", "master"),
@@ -100,9 +97,6 @@ module workers {
   compute_image             = "${data.google_compute_image.ubuntu.self_link}"
   distribution_policy_zones = ["${data.google_compute_zones.available.names}"]
   replicas                  = "${var.worker_size}"
-  can_ip_forward            = "true"
-  disk_size_gb              = "50"
-  wait_for_instances        = true
 
   instance_labels = "${merge(local.labels,
     map("vmrole", "worker"),
@@ -128,10 +122,7 @@ module etcd {
   compute_image             = "${data.google_compute_image.ubuntu.self_link}"
   distribution_policy_zones = ["${data.google_compute_zones.available.names}"]
   replicas                  = "${var.etcd_size}"
-  can_ip_forward            = "true"
-  disk_size_gb              = "50"
-  wait_for_instances        = true
-  service_port              = "2379"
+  service_port              = "${var.etcd_service_port}"
   service_port_name         = "etcd"
 
   instance_labels = "${merge(local.labels,

@@ -62,6 +62,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "prepare-shell", type: 'shell', privileged: false, inline: <<-SHELL
     sudo sed -i '/tty/!s/mesg n/tty -s \\&\\& mesg n/' /root/.profile
     sudo chown -R $(whoami):$(whoami) ~/.config
+    sudo chown -R $(whoami):$(whoami) ~/.cache
+    sudo chown -R $(whoami):$(whoami) ~/.ssh
   SHELL
   config.vm.provision "system-setup", type: "shell", inline: $script_sudo, privileged: true
   config.vm.provision "user-setup", type: "shell", path: "bin/initial-setup.sh" , privileged: false

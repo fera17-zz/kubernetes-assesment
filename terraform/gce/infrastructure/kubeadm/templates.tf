@@ -25,7 +25,7 @@ data template_file node_test {
   template = "${file("${path.module}/templates/node-test.sh")}"
 
   vars {
-    load_balancer_ip = "toto" #${module.load_balancer.external_ip}"
+    load_balancer_ip = "toto"                           #${module.load_balancer.external_ip}"
     cluster_domain   = "${var.cluster_internal_domain}"
   }
 }

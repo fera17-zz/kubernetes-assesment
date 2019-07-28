@@ -20,7 +20,6 @@ data template_file bastion_cloud_init {
   template = "${file("${path.module}/templates/bastion-cloud-init.yaml")}"
 }
 
-
 data template_cloudinit_config bastion_cloud_init {
   gzip          = false
   base64_encode = true

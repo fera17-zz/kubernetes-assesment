@@ -4,8 +4,10 @@ variable project {}
 variable prefix {}
 variable ssh_keys {}
 variable zone {}
+
 # variable internal_ip {}
 variable type {}
+
 variable image {}
 variable create {}
 variable cidr_block {}
@@ -28,6 +30,6 @@ variable admin_whitelist {
 }
 
 variable metadata {
-  type = "map"
+  type    = "map"
   default = {}
 }

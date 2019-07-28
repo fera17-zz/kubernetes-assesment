@@ -64,7 +64,7 @@ variable service_account_scopes {
 
 variable can_ip_forward {
   description = "Allow ip forwarding."
-  default     = false
+  default     = true
 }
 
 variable machine_type {
@@ -99,7 +99,7 @@ variable replicas {
 
 variable wait_for_instances {
   description = "Wait for all instances to be created/updated before returning"
-  default     = false
+  default     = true
 }
 
 variable target_pools {
@@ -109,9 +109,9 @@ variable target_pools {
 }
 
 variable service_port {
-	default = 80
-}
-variable service_port_name {
-	default = "default"
+  default = 80
 }
 
+variable service_port_name {
+  default = "default"
+}

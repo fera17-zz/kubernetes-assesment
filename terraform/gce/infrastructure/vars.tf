@@ -33,8 +33,7 @@ variable admin_whitelist {
 }
 
 variable master_service_port {}
-
+variable etcd_service_port {}
 variable cidr_block {}
 variable public_cidr_block {}
 variable private_cidr_block {}
-

@@ -4,11 +4,11 @@ variable project {
 }
 
 variable name {
-	description = "name of the resource"
+  description = "name of the resource"
 }
 
 variable prefix {
-	description = "prefix for the forwarding rule and prefix for supporting resources."
+  description = "prefix for the forwarding rule and prefix for supporting resources."
 }
 
 variable region {
@@ -25,7 +25,6 @@ variable firewall_project {
   description = "Name of the project to create the firewall rule in. Useful for shared VPC. Default is var.project."
   default     = ""
 }
-
 
 variable service_port {
   description = "TCP port your service is listening on."
@@ -53,4 +52,6 @@ variable nat_ips {
 }
 
 variable cidr_block {}
+
 # https://github.com/GoogleCloudPlatform/terraform-google-lb/blob/master/main.tf
+

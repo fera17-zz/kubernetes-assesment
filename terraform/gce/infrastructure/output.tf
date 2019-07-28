@@ -18,12 +18,12 @@ output bastion_external_ip {
 # Access keys
 
 output private_ssh_key {
-  value = "${module.ssh_key.private}"
+  value     = "${module.ssh_key.private}"
   sensitive = true
 }
 
 output public_ssh_key {
-  value = "${module.ssh_key.public}"
+  value     = "${module.ssh_key.public}"
   sensitive = true
 }
 
@@ -31,12 +31,11 @@ output private_ssh_path {
   value = "${var.private_ssh_path}"
 }
 
-
-
 # Networking
 output cidr_range {
   value = "${var.cidr_block}"
 }
+
 # TODO: inline return types
 output nat_external_static_ip {
   value = "${module.nat.external_ip}"
@@ -52,5 +51,5 @@ output load_balancer_external_static_ip {
 
 # cluster
 output gcr_location {
-    value = "${data.google_container_registry_repository.this.repository_url}"
+  value = "${data.google_container_registry_repository.this.repository_url}"
 }

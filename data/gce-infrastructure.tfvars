@@ -2,17 +2,13 @@ environment = "dev"
 
 ssh_user = "k8s"
 
-region = "europe-west2"
-
-project = "stakxlv0"
-
 prefix = "k8s"
 
-master_size = 3
+master_size = 0
 
-worker_size = 3
+worker_size = 0
 
-etcd_size = 3
+etcd_size = 0
 
 jumpbox_create = true
 
@@ -41,6 +37,8 @@ jumpbox_internal_ip = "10.240.0.2"
 admin_whitelist = ["86.1.27.129"]
 
 master_service_port = 6443
+
+etcd_service_port = 2379
 
 # https://www.site24x7.com/tools/ipv4-subnetcalculator.html
 cidr_block = "10.240.0.0/16"
