@@ -7,8 +7,6 @@ tap "warrensbox/tap"
 
 # SSL/TLS cryptography library
 brew "openssl"
-# Automate deployment, configuration, and upgrading
-brew "ansible"
 # Official Amazon AWS command-line interface
 brew "awscli"
 # CloudFlare's PKI toolkit
@@ -58,4 +56,6 @@ if OS.mac?
   brew "kubectx"
   # Terraform switcher
   brew "tfswitch"
+  # Automate deployment, configuration, and upgrading
+  brew "ansible"
 end

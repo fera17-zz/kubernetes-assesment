@@ -9,17 +9,21 @@ devsetup: ## DEV machine setup
 ssh-tunnel: ## create ssh tunnel
 	@bin/sshtunnel.sh
 
-gce-list: ## list GCE resoruces
+list-list: ## list GCE resoruces
+	@gcloud compute instances list
 	@gcloud compute instances list
 
-gce-infra: ## Setup GCE infrastructure
-	@bin/terraform-infra.sh
+infra-create-gce: ## Setup GCE infrastructure
+	@bin/terraform-infra.sh apply
+
+infra-teardown-gce: ## Destroy GCE infrastructure
+	@bin/terraform-infra.sh destroy
 
 ssh-bastion: ## Test ssh to bastion
 	@ssh-add -D -K states/cust_id_tfm_rsa
 	@ssh -o 'ForwardAgent yes' -o "StrictHostKeyChecking=no" -i states/cust_id_tfm_rsa k8s@35.189.105.90 -A
 
-gce-spray: ## Prepare kubespray for GCE
+cluster-gce: ## Prepare kubespray cluster for GCE
 	@bin/prepare-kubespray-cfg.sh
 
 up: ## Create local development Vagrant box

@@ -129,6 +129,8 @@ module etcd {
   can_ip_forward            = "true"
   disk_size_gb              = "50"
   wait_for_instances        = true
+  service_port              = "2379"
+  service_port_name         = "etcd"
 
   instance_labels = "${merge(local.labels,
     map("vmrole", "etcd"),

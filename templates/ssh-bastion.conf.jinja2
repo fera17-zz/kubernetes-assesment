@@ -1,0 +1,9 @@
+Host bastion
+  Hostname {{ bastion_ip }}
+  StrictHostKeyChecking no
+  ControlMaster auto
+  ControlPath ~/.ssh/ansible-%r@%h:%p
+  ControlPersist 5m
+
+Host  {{ masters|join(' ') }} {{ nodes|join(' ') }} {{ etcds|join(' ') }}
+  ProxyCommand ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p {{ ansible_user }}@bastion

@@ -15,4 +15,4 @@ etcd_memory_limit: "512M"
 
 ### ETCD: disable peer client cert authentication.
 # This affects ETCD_PEER_CLIENT_CERT_AUTH variable
-etcd_peer_client_auth: true
+# etcd_peer_client_auth: true

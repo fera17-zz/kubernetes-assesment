@@ -10,7 +10,7 @@ prefix = "k8s"
 
 master_size = 3
 
-worker_size = 2
+worker_size = 3
 
 etcd_size = 3
 
@@ -20,12 +20,9 @@ jumpbox_type = "f1-micro"
 
 master_type = "g1-small"
 
-worker_type = "g1-smal"
+worker_type = "g1-small"
 
 etcd_type = "f1-micro"
-
-# find it with data
-owner = "ivanka"
 
 access_config = []
 
@@ -46,22 +43,8 @@ admin_whitelist = ["86.1.27.129"]
 master_service_port = 6443
 
 # https://www.site24x7.com/tools/ipv4-subnetcalculator.html
-# The 10.200.0.0/20 IP address range can host up to 1024 compute instances.
 cidr_block = "10.240.0.0/16"
 
 public_cidr_block = "10.240.0.0/20"
 
 private_cidr_block = "10.240.16.0/20"
-
-pod_cidr = "192.168.0.0/16"
-
-service_cidr = "10.96.0.0/12"
-
-cluster_internal_domain = "cluster.local"
-
-cni_version = "0.7.5"
-
-calico_version = "v3.5"
-
-pod_network_type = "calico"
-

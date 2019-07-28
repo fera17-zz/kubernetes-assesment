@@ -216,3 +216,8 @@ dmypy.json
 *.box
 
 # End of https://www.gitignore.io/api/vagran
+
+# OSX trash
+.DS_Store
+admin.conf
+hosts.ini

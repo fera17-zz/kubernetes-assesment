@@ -6,10 +6,6 @@ output subnetwork {
   value = "${module.network.private_subnetwork_name}"
 }
 
-# output worker_instance_group {
-#   value = "${module.workers.region_instance_group}"
-# }
-
 #  bastion
 output bastion_internal_ip {
   value = "${module.bastion.internal_ip}"
@@ -31,16 +27,11 @@ output public_ssh_key {
   sensitive = true
 }
 
-# output private_ssh_path {
-#   value = "${var.private_ssh_path}"
-# }
+output private_ssh_path {
+  value = "${var.private_ssh_path}"
+}
 
-# output masters_self_links {
-#   value = "${module.masters.region_instance_group}"
-# }
-# output masters_instances {
-#   value = "${module.masters.instances}"
-# }
+
 
 # Networking
 output cidr_range {
@@ -60,3 +51,6 @@ output load_balancer_external_static_ip {
 # }
 
 # cluster
+output gcr_location {
+    value = "${data.google_container_registry_repository.this.repository_url}"
+}

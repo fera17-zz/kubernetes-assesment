@@ -44,21 +44,6 @@ echo "Updated"
 sudo chown -R vagrant /usr/local/bin
 SCRIPT
 
-provider_boxes = {
-  :virtualbox => {
-    'ubuntu' => {
-      'box_name' => "bento/ubuntu-#{UBUNTUVERSION}",
-      :box_version => "201906.18.0"
-    }
-  },
-  'docker' => {
-    'ubuntu' => {
-      'box_name' => "tknerr/baseimage-ubuntu-#{UBUNTUVERSION}",
-      :box_version => "1.0.0"
-    }
-  }
-}
-
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.hostname = "workstation"
   config.vm.box_check_update = false
@@ -80,6 +65,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "system-setup", type: "shell", inline: $script_sudo, privileged: true
   config.vm.provision "user-setup", type: "shell", path: "bin/initial-setup.sh" , privileged: false
 
+  config.vm.synced_folder "~/.config/gcloud", "/home/vagrant/.config/gcloud"
+
   %w(.vmrc .gitconfig).each do |f|
     local = File.expand_path "templates/#{f}"
     if File.exist? local
@@ -87,8 +74,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
   # Copy google cloud credentials file. TODO: encrypt it
-  config.vm.provision "file", source: ENV['GCLOUD_TF_CREDS'], destination: "/home/vagrant/.config/gcloud/#{ENV['PROJECT_ID']}-terraform-admin.json"
-  config.vm.provision "file", source: ENV['GCLOUD_CONFIG'], destination: "/home/vagrant/.config/gcloud/configurations/config_default"
+  # config.vm.provision "file", source: ENV['GCLOUD_TF_CREDS'], destination: "/home/vagrant/.config/gcloud/#{ENV['PROJECT_ID']}-terraform-admin.json"
 
   config.vm.provider :docker do |v, override|
     override.vm.box = "tknerr/baseimage-ubuntu-#{UBUNTUVERSION}"
@@ -100,5 +86,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #   v.memory = "#{RAM}"
   #   v.cpus = "#{CPUCOUNT}"
   # end
+
+  config.vm.post_up_message="Setup complete `vagrant ssh` to ssh into the box"
 
 end
