@@ -26,6 +26,13 @@ validate                       Validate pre commit
 
 ## Setup Development Workspace
 
+In root project folder, provision development environment with all the dependencies
+
+![alt start vagrant box](images/step0-creaete-disposabal-workspace.png)
+
+SSH to the box so we can deploy cluster&provision infrastructure
+
+![alt start vagrant box](images/ssh-to-vagrant-box.png)
 
 ## Cluster Architecture
 
