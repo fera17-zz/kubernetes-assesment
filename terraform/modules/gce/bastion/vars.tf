@@ -54,7 +54,6 @@ variable labels {
 
 variable tags {
   description = "The GCP network tag to apply to the bastion host for firewall rules. Defaults to 'public', the expected public tag of this module."
-  type        = "string"
   default     = ["bastion"]
 }
 

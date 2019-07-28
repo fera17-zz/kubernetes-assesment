@@ -1,25 +1,3 @@
-provider google {
-  project = "${var.project}"
-  region  = "${var.region}"
-  version = "~> 1.20"
-}
-
-terraform {
-  backend "gcs" {}
-}
-
-provider template {
-  version = "2.1.2"
-}
-
-provider tls {
-  version = "2.0"
-}
-
-provider local {
-  version = "~> 1.3"
-}
-
 # ---------------------------------------------------------------------------------------------------------------------
 # Create the Network & corresponding Router to attach other resources to
 # Networks that preserve the default route are automatically enabled for Private Google Access to GCP services
@@ -161,9 +139,7 @@ module bastion {
   create          = "${var.jumpbox_create}"
   prefix          = "${var.prefix}"
   project         = "${var.project}"
-  pub_key         = "${module.ssh_key.public}"
-  ssh_keys        = "${local.ssh_keys}"
-  type            = "${var.jumpbox_type}"
+  machine_type    = "${var.jumpbox_type}"
   region          = "${var.region}"
   cidr_block      = "${var.cidr_block}"
   image           = "${data.google_compute_image.ubuntu.self_link}"

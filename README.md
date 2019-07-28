@@ -2,7 +2,7 @@
 
 <!-- START makefile-doc -->
 ```
-$ make help 
+$ make help
 devsetup                       DEV machine setup
 ssh-tunnel                     create ssh tunnel
 list-gce                       list GCE resoruces
@@ -13,7 +13,7 @@ ssh-bastion                    Test ssh to bastion
 up                             Create local development Vagrant box
 stop                           Stoplocal development Vagrant box
 destroy                        Destroy local development Vagrant box
-validate                       Validate pre commit 
+validate                       Validate pre commit
 ```
 <!-- END makefile-doc -->
 
@@ -26,6 +26,10 @@ validate                       Validate pre commit
 
 ## Setup Development Workspace
 
+
+## Cluster Architecture
+
+![alt cluster architecture](data/cluster-architecture.jpg)
 
 
 dependecies

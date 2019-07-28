@@ -18,6 +18,9 @@ infra-create-gce: ## Task '2.1' > Setup GCE infrastructure for K8s cluster
 cluster-gce: ## Task '2.2' Provision kubernetes cluster for GCE with 'kubespray'
 	@bin/cluster-deploy-cfg.sh gce
 
+provision-ci: ## Task '3.1' Provision Jenkins on kubernetes
+	@bin/terraform-k8s.provision.sh apply
+
 infra-teardown-gce: ## Task '13' > Tear down cluster with GCE infrastructure
 	@bin/terraform-infra.sh destroy
 

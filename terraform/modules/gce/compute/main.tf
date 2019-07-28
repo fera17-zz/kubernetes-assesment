@@ -31,9 +31,9 @@ resource google_compute_instance_template this {
 
   metadata = "${var.metadata}"
 
-  lifecycle {
-    create_before_destroy = true
-  }
+  # lifecycle {
+  #   create_before_destroy = true
+  # }
 }
 
 resource google_compute_region_instance_group_manager this {
@@ -52,7 +52,7 @@ resource google_compute_region_instance_group_manager this {
     port = "${var.service_port}"
   }
 
-  lifecycle {
-    create_before_destroy = true
-  }
+  # lifecycle {
+  #   create_before_destroy = true
+  # }
 }

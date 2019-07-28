@@ -76,7 +76,7 @@ trap on_exit EXIT
 # test priveledge escalation
 ansible -i inventory/${run_version}/hosts.ini -m ping all -f 20 -b
 
-ansible-playbook -i inventory/${run_version}/hosts.ini cluster.yml -f 30 -b --flush-cache
+ansible-playbook -i inventory/${run_version}/hosts.ini cluster.yml -f 30 -b --become-user=root --flush-cache
 
 popd
 echo -e "Success for Version: $run_version. \n Copy kube config file into 'data' folder..."

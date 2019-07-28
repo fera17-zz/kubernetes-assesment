@@ -12,17 +12,13 @@ etcd_size = 3
 
 jumpbox_create = true
 
-jumpbox_type = "f1-micro"
+jumpbox_type = "g1-small"
 
-master_type = "g1-small"
+master_type = "n1-standard-2"
 
-worker_type = "g1-small"
+worker_type = "n1-standard-2"
 
-etcd_type = "f1-micro"
-
-access_config = []
-
-update_strategy = "NOME"
+etcd_type = "g1-small"
 
 service_account_scopes = [
   "https://www.googleapis.com/auth/devstorage.read_only",
@@ -44,3 +40,8 @@ cidr_block = "10.240.0.0/16"
 public_cidr_block = "10.240.0.0/20"
 
 private_cidr_block = "10.240.16.0/20"
+
+# -----------------
+#
+# CI on Kubernetes
+# -----------------
