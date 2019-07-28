@@ -9,14 +9,13 @@ devsetup: ## DEV machine setup
 ssh-tunnel: ## create ssh tunnel
 	@bin/sshtunnel.sh
 
-list-list: ## list GCE resoruces
-	@gcloud compute instances list
+list-gce: ## list GCE resoruces
 	@gcloud compute instances list
 
-infra-create-gce: ## Setup GCE infrastructure
+infra-create-gce: ## Task '2.1' > Setup GCE infrastructure for K8s cluster
 	@bin/terraform-infra.sh apply
 
-infra-teardown-gce: ## Destroy GCE infrastructure
+infra-teardown-gce: ## Task '13' > Tear down cluster with GCE infrastructure
 	@bin/terraform-infra.sh destroy
 
 ssh-bastion: ## Test ssh to bastion

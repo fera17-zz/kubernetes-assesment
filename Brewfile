@@ -5,6 +5,8 @@ tap "homebrew/core"
 tap "mveritym/mel"
 tap "warrensbox/tap"
 
+# Automate deployment, configuration, and upgrading
+  brew "ansible"
 # SSL/TLS cryptography library
 brew "openssl"
 # Official Amazon AWS command-line interface
@@ -56,6 +58,4 @@ if OS.mac?
   brew "kubectx"
   # Terraform switcher
   brew "tfswitch"
-  # Automate deployment, configuration, and upgrading
-  brew "ansible"
 end

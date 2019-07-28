@@ -5,9 +5,6 @@ provider google {
 }
 
 terraform {
-  # The example is not compatible with any versions below 0.12.
-  # required_version = ">= 0.12"
-  # Back End
   backend "gcs" {}
 }
 
@@ -55,6 +52,11 @@ module nat {
   network    = "${module.network.network_link}"
   subnetwork = "${module.network.private_subnetwork_link}"
 }
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Masters/Controll Plane, Workers, ETCD, Bastion configuraiton
+# External access is configured with Cloud NAT, which subsumes egress traffic for instances without external addresses [Master, Worker]
+# ---------------------------------------------------------------------------------------------------------------------
 
 module masters {
   source = "../../modules/gce/compute"
@@ -144,15 +146,6 @@ module etcd {
   }
 }
 
-# module master_lb {
-#   source       = "github.com/GoogleCloudPlatform/terraform-google-lb"
-#   region       = "${var.region}"
-#   name         = "${var.prefix}-admin-lb"
-#   service_port = "${var.master_service_port}"
-#   target_tags  = "${local.master_tags}"
-# }
-
-# TODO: labels
 module load_balancer {
   source = "../../modules/gce/load-balancer"
 
