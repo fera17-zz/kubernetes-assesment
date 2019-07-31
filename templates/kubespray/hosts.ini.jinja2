@@ -3,7 +3,7 @@
 ## different ip than the default iface
 {% if bastion_ip %}
 {% for item in masters -%}
-master-{{ loop.index0 + 1 }} ansible_ssh_host={{ item }} ip={{ item }}
+master-{{ loop.index0 + 1 }} ansible_ssh_host={{ item }} ip={{ item }} etcd_member_name=etcd-{{ loop.index0 + 1 }}
 {% endfor -%}
 {% for item in nodes -%}
 node-{{ loop.index0 + 1 }} ansible_ssh_host={{ item }} ip={{ item }}
@@ -23,6 +23,9 @@ bastion-1
 master-{{ loop.index0 + 1 }}
 {% endfor %}
 [etcd]
+{% for item in masters -%}
+master-{{ loop.index0 + 1 }}
+{% endfor %}
 {% for item in etcds -%}
 etcd-{{ loop.index0 + 1 }}
 {% endfor %}
@@ -30,10 +33,10 @@ etcd-{{ loop.index0 + 1 }}
 {% for item in nodes -%}
 node-{{ loop.index0 + 1 }}
 {% endfor %}
-[kube-ingress]
-{% for item in nodes -%}
-node-{{ loop.index0 + 1 }}
-{% endfor %}
+## [kube-ingress]
+## {% for item in nodes -%}
+## node-{{ loop.index0 + 1 }}
+## {% endfor %}
 
 [k8s-cluster:children]
 kube-node
